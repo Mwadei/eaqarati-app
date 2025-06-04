@@ -1,0 +1,124 @@
+{
+    "app": {
+        "name": "MY APP",
+        "welcome" : "Welcome"
+    },
+    "auth": {
+        "login_title": "Login",
+        "username_label": "Username",
+        "password_label": "Password",
+        "username_hint": "Username or email",
+        "password_hint": "Enter your password",
+        "password_confirm_label": "Confirm Password",
+        "password_confirm_hint": "Re-enter your password",
+        "login_button": "Sign In",
+        "continue_with_google": "Continue with Google",
+        "continue_with_apple": "Continue with Apple",
+        "dont_have_account": "Don't have an account?",
+        "forgot_password": "Forgot password?",
+        "sign_in": "Sign In",
+        "sign_up": "Sign Up",
+        "already_have_account": "Already have an account?",
+        "or_sign_in_with": "Or sign in with",
+        "or_sign_up_with": "Or sign up with",
+        "fill_out_the_info": "Fill out the information below in order to access your account"
+    },  
+    "validation": {
+        "please_enter_email_or_username": "Please enter username or email",
+        "please_enter_password": "Please enter password",
+        "password_confirm_empty_error": "Confirm password is required",
+        "password_confirm_error": "Password does not match",
+        "password_invalid_error": "Password must be at least 8 characters long...",
+        "email_error": "Email is not valid",
+        "please_enter_email": "Please enter email",
+        "search_bar_empty_error": "Please enter search keyword"
+    },
+    "signup": {
+        "create_account": "Create an account",
+        "create_account_title": "Get Started",
+        "create_account_subtitle": "Create an account by using the form below.",
+        "back": "Back"
+    },
+    "forget_password": {
+        "forget_password_title": "Forgot Password",
+        "forget_password_subtitle": "Please fill out your email below...",
+        "send_reset_link": "Send Reset Link",
+        "email_label": "Email",
+        "email_hint": "Enter your email"
+    },
+    "home": {
+        "search_bar": "Search",
+        "search_bar_hint": "Search for product or service or provider",
+        "learn_more": "Learn more",
+        "view_all": "View all",
+        "categories": "Categories",
+        "category": "Category",
+        "more": "More",
+        "clear": "Clear"
+    },
+    "entities": {
+        "providers": "Providers",
+        "products": "Products",
+        "services": "Services"
+    },
+    "no_results": {
+        "noProducts": "No products available",
+        "noProviders": "No providers available",
+        "noServices": "No services available",
+        "noResults": "No results found",
+        "noResultsFound": "No Result Found"
+    },
+    "orders": {
+        "orderProduct": "Request Product",
+        "orderService": "Request Service"
+    },
+    "details": {
+        "viewAllReviews": "View All Reviews",
+        "searchResult": "Search Result",
+        "ViewDetails": "View Details",
+        "resultsFor" : "results for"
+    },
+    "services_list": {
+        "ac_installation": "AC Installation",
+        "repair": "Repair",
+        "truck_refrigeration": "Truck Refrigeration",
+        "spare_parts": "Spare Parts",
+        "maintenance": "Maintenance",
+        "commercial": "Commercial Cooling",
+        "residential": "Residential Cooling",
+        "view_all_services": "View All Services"
+    },
+    "products_list": {
+        "category_ac": "Air Conditioners",
+        "category_fan": "Fans",
+        "category_refrigerator": "Refrigerators",
+        "view_all_products": "View All Products"
+    },
+    "location": {
+        "city": "Jeddah",
+        "country": "Saudi Arabia"
+    },
+    "profileScreen": {
+        "edit_profile": "Edit Profile",
+        "view_profile": "View Profile",
+        "myRequestsLink" : "My Requests",
+        "notificationsLink": "Notifications",
+        "settingsLink": "General Settings",
+        "supportLink": "Support",
+        "logoutLink": "Logout",
+        "languageLink" : "Language",
+        "privacyPolicyLink": "Privacy Policy",
+        "termsOfServiceLink": "Terms of Service",
+        "aboutUsLink": "About Us",
+        "rateUsLink": "Rate APP",
+        "shareLink": "Share App",
+        "changeMode": "Appearance",
+        "favorites": "Favorites"
+    },
+    "generalSettings": {
+        "arabic": "Arabic",
+        "english": "English",
+        "lightMode": "Light",
+        "darkMode": "Dark"
+    }
+}

@@ -1,0 +1,125 @@
+{
+    "app": {
+        "name": "تطبيقك",
+        "welcome": "مرحباً"
+    },
+    "auth": {
+        "login_title": "تسجيل الدخول",
+        "username_label": "اسم المستخدم",
+        "password_label": "كلمة المرور",
+        "username_hint": "اسم المستخدم أو البريد الإلكتروني",
+        "password_hint": "أدخل كلمة المرور",
+        "password_confirm_label": "تأكيد كلمة المرور",
+        "password_confirm_hint": "أعد إدخال كلمة المرور",
+        "login_button": "تسجيل الدخول",
+        "continue_with_google": "تسجيل الدخول باستخدام جوجل",
+        "continue_with_apple": "تسجيل الدخول باستخدام أبل",
+        "dont_have_account": "لا تمتلك حساب؟",
+        "forgot_password": "نسيت كلمة المرور؟",
+        "sign_in": "تسجيل الدخول",
+        "sign_up": "إنشاء الحساب",
+        "already_have_account": "هل لديك حساب بالفعل؟",
+        "or_sign_in_with": "أو تسجيل الدخول باستخدام",
+        "or_sign_up_with": "أو قم بالتسجيل باستخدام",
+        "fill_out_the_info": "قم بملء المعلومات أدناه للوصول إلى حسابك"
+    },
+    "validation": {
+        "please_enter_email_or_username": "يرجى إدخال اسم المستخدم أو البريد الإلكتروني",
+        "please_enter_password": "يرجى إدخال كلمة المرور",
+        "password_confirm_empty_error": "تأكيد كلمة المرور مطلوب",
+        "password_confirm_error": "كلمة المرور غير متطابقة",
+        "password_invalid_error": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل، وتحتوي على حرف كبير واحد على الأقل، وحرف صغير واحد على الأقل، ورقم واحد على الأقل، ورمز خاص واحد على الأقل.",
+        "email_error": "البريد الإلكتروني غير صالح",
+        "please_enter_email": "يرجى إدخال البريد الإلكتروني",
+        "search_bar_empty_error": "يرجى إدخال كلمة البحث"
+    },
+    "signup": {
+        "create_account": "إنشاء الحساب",
+        "create_account_title": "إبداء",
+        "create_account_subtitle": "قم بإنشاء حساب باستخدام النموذج أدناه.",
+        "back": "رجوع"
+    },
+    "forget_password": {
+        "forget_password_title": "نسيت كلمة المرور",
+        "forget_password_subtitle": "يرجى ملء بريدك الإلكتروني أدناه لتلقي رابط إعادة تعيين كلمة المرور.",
+        "send_reset_link": "إرسال رابط إعادة تعيين",
+        "email_label": "البريد الإلكتروني",
+        "email_hint": "أدخل بريدك الإلكتروني"
+    },
+    "home": {
+        "search_bar": "بحث",
+        "search_bar_hint": "ابحث عن منتج او خدمة او مزود",
+        "learn_more": "المزيد",
+        "view_all": "عرض الكل",
+        "categories": "الفئات",
+        "category": "الفئة",
+        "more": "المزيد",
+        "clear": "مسح"
+    },
+    "entities": {
+        "providers": "المزودين",
+        "products": "المنتجات",
+        "services": "الخدمات"
+    },
+    "no_results": {
+        "noProducts": "لا توجد منتجات متاحة",
+        "noProviders": "لا توجد مزودين متاحين",
+        "noServices": "لا توجد خدمات متاحة",
+        "noResults": "لا توجد نتائج",
+        "noResultsFound": "لا يوجد نتائج للبحث"
+    },
+    "orders": {
+        "orderProduct": "طلب المنتج",
+        "orderService": "طلب الخدمة"
+    },
+    "details": {
+        "viewAllReviews": "عرض كل التقييمات",
+        "searchResult": "نتائج البحث",
+        "ViewDetails": "عرض التفاصيل",
+        "resultsFor" : "نتيجة للبحث "
+    },
+    "services_list": {
+        "ac_installation": "تركيب مكيفات",
+        "repair": "صيانة وإصلاح",
+        "truck_refrigeration": "تبريد الشاحنات",
+        "spare_parts": "قطع الغيار",
+        "maintenance": "الصيانة الدورية",
+        "commercial": "أنظمة التبريد التجارية",
+        "residential": "أنظمة التبريد المنزلية",
+        "view_all_services": "عرض كل الخدمات"
+    },
+    "products_list": {
+        "category_ac": "مكيفات",
+        "category_fan": "مراوح",
+        "category_refrigerator": "ثلاجات",
+        "view_all_products": "عرض كل المنتجات"
+    },
+    "location": {
+        "city": "جدة",
+        "country": "السعودية"
+    },
+    "profileScreen":{
+        "edit_profile": "تعديل الملف الشخصي",
+        "view_profile": "عرض الملف الشخصي",
+        "myRequestsLink" : "طلباتي",
+        "notificationsLink": "الإشعارات",
+        "settingsLink": " إعدادات عامة",
+        "supportLink": "الدعم",
+        "logoutLink": "تسجيل الخروج",
+        "languageLink" : "اللغة",
+        "privacyPolicyLink": "سياسة الخصوصية",
+        "termsOfServiceLink": "شروط الخدمة",
+        "aboutUsLink": "عن التطبيق",
+        "rateUsLink": "قيم التطبيق",
+        "shareLink": "شارك التطبيق",
+        "changeMode": "المظهر",
+        "favorites": "المفضلة"
+    },
+    "generalSettings": {
+        "arabic": "العربية",
+        "english": "الإنجليزية",
+        "lightMode": "فاتح",
+        "darkMode": "داكن"
+    }
+    
+}
