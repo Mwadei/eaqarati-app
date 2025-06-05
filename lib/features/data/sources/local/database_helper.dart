@@ -10,6 +10,7 @@ class DatabaseHelper {
 
   // --- Table Names ---
   static const tableProperties = 'Properties';
+  static const tableUnits = 'Units';
   // Add other table names here later (Units, Tenants, Leases, etc.)
 
   // --- Properties Table Columns ---
@@ -19,6 +20,14 @@ class DatabaseHelper {
   static const colPropertyType = 'type';
   static const colPropertyNotes = 'notes';
   static const colPropertyCreatedAt = 'created_at';
+  // --- Units Table Columns ---
+  static const colUnitId = 'unit_id';
+  static const colUnitPropertyId = 'property_id'; // Foreign key
+  static const colUnitNumber = 'unit_number';
+  static const colUnitDescription = 'description';
+  static const colUnitStatus = 'status';
+  static const colUnitDefaultRent = 'default_rent_amount';
+  static const colUnitCreatedAt = 'created_at';
 
   // Make this a singleton class.
   DatabaseHelper._privateConstructor();
@@ -33,18 +42,22 @@ class DatabaseHelper {
   }
 
   _initDatabase() async {
-    final _documentsDirectory = await getApplicationDocumentsDirectory();
-    final path = join(_documentsDirectory.path, _databaseName);
+    final documentsDirectory = await getApplicationDocumentsDirectory();
+    final path = join(documentsDirectory.path, _databaseName);
 
     return await openDatabase(
       path,
       version: _databaseVersion,
       onCreate: _onCreate,
+      onConfigure: (db) async {
+        await db.execute('PRAGMA foreign_keys = ON');
+      },
     );
   }
 
   Future<void> _onCreate(Database db, int version) async {
-    return await db.execute('''
+    // Properties Table
+    await db.execute('''
             Create Table $tableProperties (
               $colPropertyId INTEGER PRIMARY KEY AUTOINCREMENT,
               $colPropertyName TEXT NOT NULL,
@@ -54,5 +67,19 @@ class DatabaseHelper {
               $colPropertyCreatedAt TEXT NOT NULL
             )
           ''');
+
+    // Units Table
+    await db.execute('''
+      CREATE TABLE $tableUnits (
+        $colUnitId INTEGER PRIMARY KEY AUTOINCREMENT,
+        $colUnitPropertyId INTEGER NOT NULL,
+        $colUnitNumber TEXT NOT NULL,
+        $colUnitDescription TEXT,
+        $colUnitStatus TEXT NOT NULL,
+        $colUnitDefaultRent REAL,
+        $colUnitCreatedAt TEXT NOT NULL,
+        FOREIGN KEY ($colUnitPropertyId) REFERENCES $tableProperties ($colPropertyId) ON DELETE CASCADE
+      )
+    ''');
   }
 }

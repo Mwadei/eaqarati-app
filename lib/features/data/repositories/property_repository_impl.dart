@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:eaqarati_app/core/errors/failures.dart';
 import 'package:eaqarati_app/features/data/models/property_model.dart';
-import 'package:eaqarati_app/features/data/sources/local/property_local_data_source.dart';
-import 'package:eaqarati_app/features/domain/entities/Property_entity.dart';
+import 'package:eaqarati_app/features/data/sources/local/property/property_local_data_source.dart';
+import 'package:eaqarati_app/features/domain/entities/property_entity.dart';
 import 'package:eaqarati_app/features/domain/repositories/property_repository.dart';
 import 'package:logger/logger.dart';
 import 'package:sqflite/sqflite.dart';

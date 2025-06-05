@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:eaqarati_app/core/errors/failures.dart';
-import 'package:eaqarati_app/features/domain/entities/Property_entity.dart';
+import 'package:eaqarati_app/features/domain/entities/property_entity.dart';
 
 abstract class PropertyRepository {
   Future<Either<Failure, PropertyEntity>> getPropertyById(int propertyId);

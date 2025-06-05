@@ -1,4 +1,4 @@
-import 'package:eaqarati_app/features/domain/entities/Property_entity.dart';
+import 'package:eaqarati_app/features/domain/entities/property_entity.dart';
 
 class PropertyModel extends PropertyEntity {
   const PropertyModel({
