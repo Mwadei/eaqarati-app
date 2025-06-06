@@ -9,7 +9,7 @@ abstract class UnitLocalDataSource {
   Future<List<UnitsModel>> getAllUnits();
   Future<int> addUnit(UnitsModel unit);
   Future<int> updateUnit(UnitsModel unit);
-  Future<int> deleteUnit(int id);
+  Future<int> deleteUnit(int unitId);
 }
 
 class UnitLocalDataSourceImpl implements UnitLocalDataSource {
@@ -38,32 +38,74 @@ class UnitLocalDataSourceImpl implements UnitLocalDataSource {
   }
 
   @override
-  Future<int> deleteUnit(int id) {
-    // TODO: implement deleteUnit
-    throw UnimplementedError();
+  Future<int> deleteUnit(int unitId) async {
+    final db = await databaseHelper.database;
+    final columnId = DatabaseHelper.colUnitId;
+    return await db.delete(
+      DatabaseHelper.tableUnits,
+      where: '{$columnId} = ? ',
+      whereArgs: [unitId],
+    );
   }
 
   @override
-  Future<List<UnitsModel>> getAllUnits() {
-    // TODO: implement getAllUnits
-    throw UnimplementedError();
+  Future<List<UnitsModel>> getAllUnits() async {
+    final db = await databaseHelper.database;
+    final List<Map<String, dynamic>> units = await db.query(
+      DatabaseHelper.tableUnits,
+    );
+
+    if (units.isEmpty) return [];
+    return units.map((e) => UnitsModel.fromMap(e)).toList();
   }
 
   @override
-  Future<UnitsModel> getUnitById(int unitId) {
-    // TODO: implement getUnitById
-    throw UnimplementedError();
+  Future<UnitsModel> getUnitById(int unitId) async {
+    final db = await databaseHelper.database;
+    final columnId = DatabaseHelper.colUnitId;
+    final List<Map<String, Object?>> unit = await db.query(
+      DatabaseHelper.tableUnits,
+      where: '{$columnId} = ?',
+      whereArgs: [unitId],
+      limit: 1,
+    );
+
+    if (unit.isNotEmpty) {
+      return unit.map((e) => UnitsModel.fromMap(e)).first;
+    } else {
+      Logger().e('Unit with ID $unitId is not found');
+      throw Exception('Unit with ID $unitId is not found');
+    }
   }
 
   @override
-  Future<List<UnitsModel>> getUnitsByPropertyId(int propertyId) {
-    // TODO: implement getUnitsByPropertyId
-    throw UnimplementedError();
+  Future<List<UnitsModel>> getUnitsByPropertyId(int propertyId) async {
+    final db = await databaseHelper.database;
+    final columnId = DatabaseHelper.colUnitPropertyId;
+    final List<Map<String, dynamic>> units = await db.query(
+      DatabaseHelper.tableUnits,
+      where: '{$columnId} = ?',
+      whereArgs: [propertyId],
+    );
+
+    if (units.isEmpty) {
+      Logger().i('There is no units with property ID $propertyId');
+      return [];
+    } else {
+      return units.map((e) => UnitsModel.fromMap(e)).toList();
+    }
   }
 
   @override
-  Future<int> updateUnit(UnitsModel unit) {
-    // TODO: implement updateUnit
-    throw UnimplementedError();
+  Future<int> updateUnit(UnitsModel unit) async {
+    final db = await databaseHelper.database;
+    final columnId = DatabaseHelper.colUnitId;
+
+    return db.update(
+      DatabaseHelper.tableUnits,
+      unit.toMap(),
+      where: '{$columnId} = ?',
+      whereArgs: [unit.unitId],
+    );
   }
 }
