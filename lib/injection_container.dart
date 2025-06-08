@@ -1,13 +1,24 @@
+import 'package:eaqarati_app/features/data/repositories/lease_repository_impl.dart';
 import 'package:eaqarati_app/features/data/repositories/property_repository_impl.dart';
 import 'package:eaqarati_app/features/data/repositories/tenant_repository_impl.dart';
 import 'package:eaqarati_app/features/data/repositories/units_repository_impl.dart';
 import 'package:eaqarati_app/features/data/sources/local/database_helper.dart';
+import 'package:eaqarati_app/features/data/sources/local/lease_local_data_source.dart';
 import 'package:eaqarati_app/features/data/sources/local/property_local_data_source.dart';
 import 'package:eaqarati_app/features/data/sources/local/tenant_local_data_source.dart';
 import 'package:eaqarati_app/features/data/sources/local/unit_local_data_source.dart';
+import 'package:eaqarati_app/features/domain/repositories/lease_repository.dart';
 import 'package:eaqarati_app/features/domain/repositories/property_repository.dart';
 import 'package:eaqarati_app/features/domain/repositories/tenant_repository.dart';
 import 'package:eaqarati_app/features/domain/repositories/units_repository.dart';
+import 'package:eaqarati_app/features/domain/usecases/leases/add_lease_use_case.dart';
+import 'package:eaqarati_app/features/domain/usecases/leases/delete_lease_use_case.dart';
+import 'package:eaqarati_app/features/domain/usecases/leases/get_active_leases_use_case.dart';
+import 'package:eaqarati_app/features/domain/usecases/leases/get_all_leases_use_case.dart';
+import 'package:eaqarati_app/features/domain/usecases/leases/get_lease_by_id_use_case.dart';
+import 'package:eaqarati_app/features/domain/usecases/leases/get_leases_by_tenant_id_use_case.dart';
+import 'package:eaqarati_app/features/domain/usecases/leases/get_leases_by_unit_id_use_case.dart';
+import 'package:eaqarati_app/features/domain/usecases/leases/update_lease_use_case.dart';
 import 'package:eaqarati_app/features/domain/usecases/property/add_property_use_case.dart';
 import 'package:eaqarati_app/features/domain/usecases/property/delete_property_use_case.dart';
 import 'package:eaqarati_app/features/domain/usecases/property/get_all_properties_use_case.dart';
@@ -82,6 +93,24 @@ Future<void> init() async {
     () => TenantLocalDataSourceImpl(databaseHelper: sl()),
   );
 
+  // ----- Leases (New) -----
+  // Use Cases
+  sl.registerLazySingleton(() => AddLeaseUseCase(sl()));
+  sl.registerLazySingleton(() => GetLeaseByIdUseCase(sl()));
+  sl.registerLazySingleton(() => GetAllLeasesUseCase(sl()));
+  sl.registerLazySingleton(() => GetLeasesByUnitIdUseCase(sl()));
+  sl.registerLazySingleton(() => GetLeasesByTenantIdUseCase(sl()));
+  sl.registerLazySingleton(() => GetActiveLeasesUseCase(sl()));
+  sl.registerLazySingleton(() => UpdateLeaseUseCase(sl()));
+  sl.registerLazySingleton(() => DeleteLeaseUseCase(sl()));
+  // Repository
+  sl.registerLazySingleton<LeaseRepository>(
+    () => LeaseRepositoryImpl(localDataSource: sl()),
+  );
+  // Data Source
+  sl.registerLazySingleton<LeaseLocalDataSource>(
+    () => LeaseLocalDataSourceImpl(databaseHelper: sl()),
+  );
   //-------------------------------------------------------------------------------------------------
   //-------------------------------------------------------------------------------------------------
 

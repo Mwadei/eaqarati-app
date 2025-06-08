@@ -1,12 +1,21 @@
 import 'package:eaqarati_app/config/app_routes.dart';
 import 'package:eaqarati_app/config/app_theme.dart';
+import 'package:eaqarati_app/core/services/settings_service.dart';
+import 'package:eaqarati_app/injection_container.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  await Hive.initFlutter();
 
+  // Initialize SettingsService (Hive box opening)
+  final settingsService = SettingsService();
+  await settingsService.init();
+
+  await init();
   runApp(
     EasyLocalization(
       supportedLocales: const [Locale('ar'), Locale('en')],

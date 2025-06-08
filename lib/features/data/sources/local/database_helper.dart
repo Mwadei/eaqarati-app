@@ -12,7 +12,9 @@ class DatabaseHelper {
   static const tableProperties = 'Properties';
   static const tableUnits = 'Units';
   static const tableTenants = 'Tenants';
-  // Add other table names here later ( Leases, etc.)
+  static const tableLeases = 'Leases';
+  static const tableScheduledPayments = 'ScheduledPayments';
+  static const tablePayments = 'Payments';
 
   // --- Properties Table Columns ---
   static const colPropertyId = 'property_id';
@@ -39,6 +41,20 @@ class DatabaseHelper {
   static const colTenantNationalId = 'national_id';
   static const colTenantNotes = 'notes';
   static const colTenantCreatedAt = 'created_at';
+
+  // --- Leases Table Columns ---
+  static const colLeaseId = 'lease_id';
+  static const colLeaseUnitId = 'unit_id'; // Foreign Key
+  static const colLeaseTenantId = 'tenant_id'; // Foreign Key
+  static const colLeaseStartDate = 'start_date';
+  static const colLeaseEndDate = 'end_date';
+  static const colLeaseRentAmount = 'rent_amount';
+  static const colLeasePaymentFrequencyType = 'payment_frequency_type';
+  static const colLeasePaymentFrequencyValue = 'payment_frequency_value';
+  static const colLeaseDepositAmount = 'deposit_amount';
+  static const colLeaseNotes = 'notes';
+  static const colLeaseIsActive = 'is_active';
+  static const colLeaseCreatedAt = 'created_at';
 
   // Make this a singleton class.
   DatabaseHelper._privateConstructor();
@@ -69,7 +85,7 @@ class DatabaseHelper {
   Future<void> _onCreate(Database db, int version) async {
     // Properties Table
     await db.execute('''
-            Create Table $tableProperties (
+            Create Table IF NOT EXISTS $tableProperties (
               $colPropertyId INTEGER PRIMARY KEY AUTOINCREMENT,
               $colPropertyName TEXT NOT NULL,
               $colPropertyAddress TEXT,
@@ -81,7 +97,7 @@ class DatabaseHelper {
 
     // Units Table
     await db.execute('''
-      CREATE TABLE $tableUnits (
+      CREATE TABLE IF NOT EXISTS $tableUnits (
         $colUnitId INTEGER PRIMARY KEY AUTOINCREMENT,
         $colUnitPropertyId INTEGER NOT NULL,
         $colUnitNumber TEXT NOT NULL,
@@ -93,9 +109,9 @@ class DatabaseHelper {
       )
     ''');
 
-    // Tenants Table (New)
+    // Tenants Table
     await db.execute('''
-      CREATE TABLE $tableTenants (
+      CREATE TABLE IF NOT EXISTS $tableTenants (
         $colTenantId INTEGER PRIMARY KEY AUTOINCREMENT,
         $colTenantFullName TEXT NOT NULL,
         $colTenantPhoneNumber TEXT,
@@ -103,6 +119,26 @@ class DatabaseHelper {
         $colTenantNationalId TEXT,
         $colTenantNotes TEXT,
         $colTenantCreatedAt TEXT NOT NULL DEFAULT (datetime('now', 'localtime'))
+      )
+    ''');
+
+    // Leases Table
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS $tableLeases (
+        $colLeaseId INTEGER PRIMARY KEY AUTOINCREMENT,
+        $colLeaseUnitId INTEGER NOT NULL,
+        $colLeaseTenantId INTEGER NOT NULL,
+        $colLeaseStartDate TEXT NOT NULL,
+        $colLeaseEndDate TEXT NOT NULL,
+        $colLeaseRentAmount REAL NOT NULL,
+        $colLeasePaymentFrequencyType TEXT NOT NULL,
+        $colLeasePaymentFrequencyValue INTEGER,
+        $colLeaseDepositAmount REAL DEFAULT 0.0,
+        $colLeaseNotes TEXT,
+        $colLeaseIsActive INTEGER DEFAULT 1,
+        $colLeaseCreatedAt TEXT NOT NULL DEFAULT (datetime('now', 'localtime')),
+        FOREIGN KEY ($colLeaseUnitId) REFERENCES $tableUnits ($colUnitId) ON DELETE RESTRICT,
+        FOREIGN KEY ($colLeaseTenantId) REFERENCES $tableTenants ($colTenantId) ON DELETE RESTRICT
       )
     ''');
   }
