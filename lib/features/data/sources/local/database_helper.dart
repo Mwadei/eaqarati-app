@@ -11,7 +11,8 @@ class DatabaseHelper {
   // --- Table Names ---
   static const tableProperties = 'Properties';
   static const tableUnits = 'Units';
-  // Add other table names here later (Units, Tenants, Leases, etc.)
+  static const tableTenants = 'Tenants';
+  // Add other table names here later ( Leases, etc.)
 
   // --- Properties Table Columns ---
   static const colPropertyId = 'property_id';
@@ -20,6 +21,7 @@ class DatabaseHelper {
   static const colPropertyType = 'type';
   static const colPropertyNotes = 'notes';
   static const colPropertyCreatedAt = 'created_at';
+
   // --- Units Table Columns ---
   static const colUnitId = 'unit_id';
   static const colUnitPropertyId = 'property_id'; // Foreign key
@@ -28,6 +30,15 @@ class DatabaseHelper {
   static const colUnitStatus = 'status';
   static const colUnitDefaultRent = 'default_rent_amount';
   static const colUnitCreatedAt = 'created_at';
+
+  // --- Tenants Table Columns ---
+  static const colTenantId = 'tenant_id';
+  static const colTenantFullName = 'full_name';
+  static const colTenantPhoneNumber = 'phone_number';
+  static const colTenantEmail = 'email';
+  static const colTenantNationalId = 'national_id';
+  static const colTenantNotes = 'notes';
+  static const colTenantCreatedAt = 'created_at';
 
   // Make this a singleton class.
   DatabaseHelper._privateConstructor();
@@ -64,7 +75,7 @@ class DatabaseHelper {
               $colPropertyAddress TEXT,
               $colPropertyType TEXT NOT NULL,
               $colPropertyNotes TEXT,
-              $colPropertyCreatedAt TEXT NOT NULL
+              $colPropertyCreatedAt TEXT NOT NULL DEFAULT (datetime('now', 'localtime'))
             )
           ''');
 
@@ -77,8 +88,21 @@ class DatabaseHelper {
         $colUnitDescription TEXT,
         $colUnitStatus TEXT NOT NULL,
         $colUnitDefaultRent REAL,
-        $colUnitCreatedAt TEXT NOT NULL,
+        $colUnitCreatedAt TEXT NOT NULL DEFAULT (datetime('now', 'localtime')),
         FOREIGN KEY ($colUnitPropertyId) REFERENCES $tableProperties ($colPropertyId) ON DELETE CASCADE
+      )
+    ''');
+
+    // Tenants Table (New)
+    await db.execute('''
+      CREATE TABLE $tableTenants (
+        $colTenantId INTEGER PRIMARY KEY AUTOINCREMENT,
+        $colTenantFullName TEXT NOT NULL,
+        $colTenantPhoneNumber TEXT,
+        $colTenantEmail TEXT,
+        $colTenantNationalId TEXT,
+        $colTenantNotes TEXT,
+        $colTenantCreatedAt TEXT NOT NULL DEFAULT (datetime('now', 'localtime'))
       )
     ''');
   }

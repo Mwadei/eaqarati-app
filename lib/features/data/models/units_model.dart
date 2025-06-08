@@ -1,4 +1,5 @@
 import 'package:eaqarati_app/core/utils/enum.dart';
+import 'package:eaqarati_app/features/data/sources/local/database_helper.dart';
 import 'package:eaqarati_app/features/domain/entities/units_entity.dart';
 
 class UnitsModel extends UnitsEntity {
@@ -14,25 +15,27 @@ class UnitsModel extends UnitsEntity {
 
   factory UnitsModel.fromMap(Map<String, dynamic> map) {
     return UnitsModel(
-      unitId: map['unit_id'] as int?,
-      propertyId: map['property_id'] as int,
-      unitNumber: map['unit_number'] as String,
-      description: map['description'] as String?,
-      status: UnitsEntity.statusFormString(map['status'] as String),
-      defaultRentAmount: map['default_rent_amount'] as double?,
-      createdAt: DateTime.parse(map['created_at'] as String),
+      unitId: map[DatabaseHelper.colUnitId] as int?,
+      propertyId: map[DatabaseHelper.colUnitPropertyId] as int,
+      unitNumber: map[DatabaseHelper.colUnitNumber] as String,
+      description: map[DatabaseHelper.colUnitDescription] as String?,
+      status: UnitsEntity.statusFormString(
+        map[DatabaseHelper.colUnitStatus] as String,
+      ),
+      defaultRentAmount: map[DatabaseHelper.colUnitDefaultRent] as double?,
+      createdAt: DateTime.parse(map[DatabaseHelper.colUnitCreatedAt] as String),
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      if (unitId != null) 'unit_id': unitId,
-      'property_id': propertyId,
-      'unit_number': unitNumber,
-      'description': description,
-      'status': statusString,
-      'default_rent_amount': defaultRentAmount,
-      'created_at': createdAt.toIso8601String(),
+      if (unitId != null) DatabaseHelper.colUnitId: unitId,
+      DatabaseHelper.colUnitPropertyId: propertyId,
+      DatabaseHelper.colUnitNumber: unitNumber,
+      DatabaseHelper.colUnitDescription: description,
+      DatabaseHelper.colUnitStatus: statusString,
+      DatabaseHelper.colUnitDefaultRent: defaultRentAmount,
+      DatabaseHelper.colUnitCreatedAt: createdAt.toIso8601String(),
     };
   }
 

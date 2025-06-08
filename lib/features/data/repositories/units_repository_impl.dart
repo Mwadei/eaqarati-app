@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:eaqarati_app/core/errors/failures.dart';
 import 'package:eaqarati_app/features/data/models/units_model.dart';
-import 'package:eaqarati_app/features/data/sources/local/unit/unit_local_data_source.dart';
+import 'package:eaqarati_app/features/data/sources/local/unit_local_data_source.dart';
 import 'package:eaqarati_app/features/domain/entities/units_entity.dart';
 import 'package:eaqarati_app/features/domain/repositories/units_repository.dart';
 import 'package:logger/logger.dart';

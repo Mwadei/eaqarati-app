@@ -1,3 +1,4 @@
+import 'package:eaqarati_app/features/data/sources/local/database_helper.dart';
 import 'package:eaqarati_app/features/domain/entities/property_entity.dart';
 
 class PropertyModel extends PropertyEntity {
@@ -12,23 +13,25 @@ class PropertyModel extends PropertyEntity {
 
   factory PropertyModel.fromMap(Map<String, dynamic> map) {
     return PropertyModel(
-      propertyId: map['property_id'] as int?,
-      name: map['name'] as String,
-      address: map['address'] as String,
-      type: map['type'] as String,
-      notes: map['notes'] as String,
-      createdAt: DateTime.parse(map['createdAt'] as String),
+      propertyId: map[DatabaseHelper.colPropertyId] as int?,
+      name: map[DatabaseHelper.colPropertyName] as String,
+      address: map[DatabaseHelper.colPropertyAddress] as String,
+      type: map[DatabaseHelper.colPropertyType] as String,
+      notes: map[DatabaseHelper.colPropertyNotes] as String,
+      createdAt: DateTime.parse(
+        map[DatabaseHelper.colPropertyCreatedAt] as String,
+      ),
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      if (propertyId != null) 'property_id': propertyId,
-      'name': name,
-      'address': address,
-      'type': type,
-      'notes': notes,
-      'createdAt': createdAt.toIso8601String(),
+      if (propertyId != null) DatabaseHelper.colPropertyId: propertyId,
+      DatabaseHelper.colPropertyName: name,
+      DatabaseHelper.colPropertyAddress: address,
+      DatabaseHelper.colPropertyType: type,
+      DatabaseHelper.colPropertyNotes: notes,
+      DatabaseHelper.colPropertyCreatedAt: createdAt.toIso8601String(),
     };
   }
 

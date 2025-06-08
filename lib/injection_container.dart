@@ -1,8 +1,8 @@
 import 'package:eaqarati_app/features/data/repositories/property_repository_impl.dart';
 import 'package:eaqarati_app/features/data/repositories/units_repository_impl.dart';
 import 'package:eaqarati_app/features/data/sources/local/database_helper.dart';
-import 'package:eaqarati_app/features/data/sources/local/property/property_local_data_source.dart';
-import 'package:eaqarati_app/features/data/sources/local/unit/unit_local_data_source.dart';
+import 'package:eaqarati_app/features/data/sources/local/property_local_data_source.dart';
+import 'package:eaqarati_app/features/data/sources/local/unit_local_data_source.dart';
 import 'package:eaqarati_app/features/domain/repositories/property_repository.dart';
 import 'package:eaqarati_app/features/domain/repositories/units_repository.dart';
 import 'package:eaqarati_app/features/domain/usecases/property/add_property_use_case.dart';
