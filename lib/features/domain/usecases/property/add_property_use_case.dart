@@ -12,8 +12,10 @@ class AddPropertyUseCase {
   Future<Either<Failure, int>> call(PropertyEntity property) async {
     if (property.name.isEmpty) {
       Logger().e('Property name cannot be empty via AddPropertyUseCase.');
-      throw ArgumentError(
-        'Property name cannot be empty via AddPropertyUseCase.',
+      return Left(
+        ValidationFailure(
+          'Property name cannot be empty via AddPropertyUseCase.',
+        ),
       );
     } else {
       return await propertyRepository.addProperty(property);

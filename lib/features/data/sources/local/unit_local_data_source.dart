@@ -29,7 +29,7 @@ class UnitLocalDataSourceImpl implements UnitLocalDataSource {
       return await db.insert(
         DatabaseHelper.tableUnits,
         unitMap,
-        conflictAlgorithm: ConflictAlgorithm.fail,
+        conflictAlgorithm: ConflictAlgorithm.abort,
       );
     } catch (e) {
       Logger().e('Failed to insert Unit via UnitLocalDataSourceImpl');
