@@ -18,11 +18,12 @@ abstract class ScheduledPaymentLocalDataSource {
   );
   Future<int> addScheduledPayment(ScheduledPaymentModel payment);
   Future<List<int>> addScheduledPaymentsBatch(
-    List<ScheduledPaymentModel> payments,
-  );
+    List<ScheduledPaymentModel> payments, {
+    Transaction? txn,
+  });
   Future<int> updateScheduledPayment(ScheduledPaymentModel payment);
   Future<int> deleteScheduledPayment(int id);
-  Future<int> deleteScheduledPaymentsByLeaseId(int leaseId);
+  Future<int> deleteScheduledPaymentsByLeaseId(int leaseId, {Transaction? txn});
 }
 
 class ScheduledPaymentLocalDataSourceImpl
@@ -55,10 +56,11 @@ class ScheduledPaymentLocalDataSourceImpl
 
   @override
   Future<List<int>> addScheduledPaymentsBatch(
-    List<ScheduledPaymentModel> payments,
-  ) async {
-    final db = await databaseHelper.database;
-    final batch = db.batch();
+    List<ScheduledPaymentModel> payments, {
+    Transaction? txn,
+  }) async {
+    final dbOrTxn = txn ?? await databaseHelper.database;
+    final batch = dbOrTxn.batch();
     _logger.i("Adding batch of ${payments.length} scheduled payments.");
     for (var payment in payments) {
       Map<String, dynamic> paymentMap = payment.toMap();
@@ -102,11 +104,14 @@ class ScheduledPaymentLocalDataSourceImpl
   }
 
   @override
-  Future<int> deleteScheduledPaymentsByLeaseId(int leaseId) async {
-    final db = await databaseHelper.database;
+  Future<int> deleteScheduledPaymentsByLeaseId(
+    int leaseId, {
+    Transaction? txn,
+  }) async {
+    final dbOrTxn = txn ?? await databaseHelper.database;
     _logger.i("Deleting scheduled payments for lease id: $leaseId");
     try {
-      return await db.delete(
+      return await dbOrTxn.delete(
         DatabaseHelper.tableScheduledPayments,
         where: '${DatabaseHelper.colScheduledPaymentLeaseId} = ?',
         whereArgs: [leaseId],

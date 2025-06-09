@@ -31,7 +31,10 @@ class LeaseRepositoryImpl implements LeaseRepository {
   }
 
   @override
-  Future<Either<Failure, int>> addLease(LeaseEntity lease) async {
+  Future<Either<Failure, int>> addLease(
+    LeaseEntity lease, {
+    Transaction? transaction,
+  }) async {
     try {
       final leaseModel = _toModel(lease);
       if (leaseModel.leaseId != null) {
@@ -40,7 +43,7 @@ class LeaseRepositoryImpl implements LeaseRepository {
           DatabaseFailure('Lease ID must be null to add a new lease.'),
         );
       }
-      final id = await localDataSource.addLease(leaseModel);
+      final id = await localDataSource.addLease(leaseModel, txn: transaction);
       return Right(id);
     } on DatabaseException catch (e) {
       _logger.e('DBException adding lease: ${e.toString()}');
@@ -54,9 +57,15 @@ class LeaseRepositoryImpl implements LeaseRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> deleteLease(int leaseId) async {
+  Future<Either<Failure, Unit>> deleteLease(
+    int leaseId, {
+    Transaction? transaction,
+  }) async {
     try {
-      final count = await localDataSource.deleteLease(leaseId);
+      final count = await localDataSource.deleteLease(
+        leaseId,
+        txn: transaction,
+      );
       if (count > 0) {
         return Right(unit);
       } else {
@@ -114,14 +123,20 @@ class LeaseRepositoryImpl implements LeaseRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> updateLease(LeaseEntity lease) async {
+  Future<Either<Failure, Unit>> updateLease(
+    LeaseEntity lease, {
+    Transaction? transaction,
+  }) async {
     try {
       if (lease.leaseId == null) {
         _logger.w('Lease ID cannot be null for an update operation.');
         return Left(DatabaseFailure('Lease ID cannot be null for an update.'));
       }
       final leaseModel = _toModel(lease);
-      final count = await localDataSource.updateLease(leaseModel);
+      final count = await localDataSource.updateLease(
+        leaseModel,
+        txn: transaction,
+      );
       if (count > 0) {
         return Right(unit);
       } else {

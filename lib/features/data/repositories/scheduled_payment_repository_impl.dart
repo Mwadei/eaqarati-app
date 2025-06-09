@@ -57,8 +57,9 @@ class ScheduledPaymentRepositoryImpl implements ScheduledPaymentRepository {
 
   @override
   Future<Either<Failure, List<int>>> addScheduledPaymentsBatch(
-    List<ScheduledPaymentEntity> payments,
-  ) async {
+    List<ScheduledPaymentEntity> payments, {
+    Transaction? transaction,
+  }) async {
     try {
       final models = _toModelList(payments);
       if (models.any((p) => p.scheduledPaymentId != null)) {
@@ -68,7 +69,10 @@ class ScheduledPaymentRepositoryImpl implements ScheduledPaymentRepository {
           ),
         );
       }
-      final ids = await localDataSource.addScheduledPaymentsBatch(models);
+      final ids = await localDataSource.addScheduledPaymentsBatch(
+        models,
+        txn: transaction,
+      );
       return Right(ids);
     } on DatabaseException catch (e) {
       _logger.e('DBException adding scheduled payments batch: ${e.toString()}');
@@ -103,10 +107,14 @@ class ScheduledPaymentRepositoryImpl implements ScheduledPaymentRepository {
 
   @override
   Future<Either<Failure, Unit>> deleteScheduledPaymentsByLeaseId(
-    int leaseId,
-  ) async {
+    int leaseId, {
+    Transaction? transaction,
+  }) async {
     try {
-      await localDataSource.deleteScheduledPaymentsByLeaseId(leaseId);
+      await localDataSource.deleteScheduledPaymentsByLeaseId(
+        leaseId,
+        txn: transaction,
+      );
       // delete operation in sqflite returns number of rows affected.
       // We don't necessarily know if any existed, but the operation itself succeeded if no error.
       return Right(unit);

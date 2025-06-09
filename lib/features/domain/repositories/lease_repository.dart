@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:eaqarati_app/core/errors/failures.dart';
 import 'package:eaqarati_app/features/domain/entities/lease_entity.dart';
+import 'package:sqflite/sqflite.dart';
 
 abstract class LeaseRepository {
   Future<Either<Failure, LeaseEntity>> getLeaseById(int leaseId);
@@ -8,7 +9,16 @@ abstract class LeaseRepository {
   Future<Either<Failure, List<LeaseEntity>>> getLeasesByUnitId(int unitId);
   Future<Either<Failure, List<LeaseEntity>>> getLeasesByTenantId(int tenantId);
   Future<Either<Failure, List<LeaseEntity>>> getActiveLeases();
-  Future<Either<Failure, int>> addLease(LeaseEntity lease);
-  Future<Either<Failure, Unit>> updateLease(LeaseEntity lease);
-  Future<Either<Failure, Unit>> deleteLease(int leaseId);
+  Future<Either<Failure, int>> addLease(
+    LeaseEntity lease, {
+    Transaction? transaction,
+  });
+  Future<Either<Failure, Unit>> updateLease(
+    LeaseEntity lease, {
+    Transaction? transaction,
+  });
+  Future<Either<Failure, Unit>> deleteLease(
+    int leaseId, {
+    Transaction? transaction,
+  });
 }

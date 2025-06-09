@@ -9,9 +9,9 @@ abstract class LeaseLocalDataSource {
   Future<List<LeaseModel>> getLeasesByUnitId(int unitId);
   Future<List<LeaseModel>> getLeasesByTenantId(int tenantId);
   Future<List<LeaseModel>> getActiveLeases();
-  Future<int> addLease(LeaseModel lease);
-  Future<int> updateLease(LeaseModel lease);
-  Future<int> deleteLease(int leaseId);
+  Future<int> addLease(LeaseModel lease, {Transaction? txn});
+  Future<int> updateLease(LeaseModel lease, {Transaction? txn});
+  Future<int> deleteLease(int leaseId, {Transaction? txn});
 }
 
 class LeaseLocalDataSourceImpl implements LeaseLocalDataSource {
@@ -21,15 +21,15 @@ class LeaseLocalDataSourceImpl implements LeaseLocalDataSource {
   LeaseLocalDataSourceImpl({required this.databaseHelper});
 
   @override
-  Future<int> addLease(LeaseModel lease) async {
-    final db = await databaseHelper.database;
+  Future<int> addLease(LeaseModel lease, {Transaction? txn}) async {
+    final dbOrTxn = txn ?? await databaseHelper.database;
     Map<String, dynamic> leaseMap = lease.toMap();
     leaseMap.removeWhere(
       (key, value) => key == DatabaseHelper.colLeaseId && value == null,
     );
     _logger.i("Adding lease: ${leaseMap.toString()}");
     try {
-      return await db.insert(
+      return await dbOrTxn.insert(
         DatabaseHelper.tableLeases,
         leaseMap,
         conflictAlgorithm: ConflictAlgorithm.abort,
@@ -41,11 +41,11 @@ class LeaseLocalDataSourceImpl implements LeaseLocalDataSource {
   }
 
   @override
-  Future<int> deleteLease(int leaseId) async {
-    final db = await databaseHelper.database;
+  Future<int> deleteLease(int leaseId, {Transaction? txn}) async {
+    final dbOrTxn = txn ?? await databaseHelper.database;
     _logger.i("Deleting lease with id: $leaseId");
     try {
-      return await db.delete(
+      return await dbOrTxn.delete(
         DatabaseHelper.tableLeases,
         where: '${DatabaseHelper.colLeaseId} = ?',
         whereArgs: [leaseId],
@@ -93,11 +93,11 @@ class LeaseLocalDataSourceImpl implements LeaseLocalDataSource {
   }
 
   @override
-  Future<int> updateLease(LeaseModel lease) async {
-    final db = await databaseHelper.database;
+  Future<int> updateLease(LeaseModel lease, {Transaction? txn}) async {
+    final dbOrTxn = await databaseHelper.database;
     _logger.i("Updating lease: ${lease.toMap().toString()}");
     try {
-      return await db.update(
+      return await dbOrTxn.update(
         DatabaseHelper.tableLeases,
         lease.toMap(),
         where: '${DatabaseHelper.colLeaseId} = ?',
