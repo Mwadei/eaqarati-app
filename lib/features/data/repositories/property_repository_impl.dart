@@ -78,17 +78,9 @@ class PropertyRepositoryImpl implements PropertyRepository {
     try {
       final propertyModels = await localDataSource.getAllProperties();
 
-      if (propertyModels.isNotEmpty) {
-        return Right(
-          propertyModels.map((data) => data as PropertyEntity).toList(),
-        );
-      } else {
-        return Left(
-          NotFoundFailure(
-            'Failed to get all properties via PropertyRepositoryImpl',
-          ),
-        );
-      }
+      return Right(
+        propertyModels.map((data) => data as PropertyEntity).toList(),
+      );
     } on DatabaseException catch (e) {
       Logger().e(
         'Failed to get all properties: ${e.toString()} via PropertyRepositoryImpl',

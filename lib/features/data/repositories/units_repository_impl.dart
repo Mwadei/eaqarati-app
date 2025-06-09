@@ -77,13 +77,7 @@ class UnitsRepositoryImpl implements UnitsRepository {
   Future<Either<Failure, List<UnitsEntity>>> getAllUnits() async {
     try {
       final units = await unitLocalDataSource.getAllUnits();
-      if (units.isNotEmpty) {
-        return Right(units.map((data) => data as UnitsEntity).toList());
-      } else {
-        return Left(
-          NotFoundFailure('Failed to get all units via UnitsRepositoryImpl'),
-        );
-      }
+      return Right(units.map((data) => data as UnitsEntity).toList());
     } on DatabaseException catch (e) {
       Logger().e(
         'Failed to get all units: ${e.toString()} via UnitsRepositoryImpl',

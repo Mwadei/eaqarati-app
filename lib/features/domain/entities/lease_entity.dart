@@ -31,6 +31,37 @@ class LeaseEntity extends Equatable {
     required this.createdAt,
   });
 
+  LeaseEntity copyWith({
+    int? leaseId,
+    int? unitId,
+    int? tenantId,
+    DateTime? startDate,
+    DateTime? endDate,
+    double? rentAmount,
+    PaymentFrequencyType? paymentFrequencyType,
+    int? paymentFrequencyValue,
+    double? depositAmount,
+    String? notes,
+    bool? isActive,
+    DateTime? createdAt,
+  }) {
+    return LeaseEntity(
+      leaseId: leaseId ?? this.leaseId,
+      unitId: unitId ?? this.unitId,
+      tenantId: tenantId ?? this.tenantId,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
+      rentAmount: rentAmount ?? this.rentAmount,
+      paymentFrequencyType: paymentFrequencyType ?? this.paymentFrequencyType,
+      paymentFrequencyValue:
+          paymentFrequencyValue ?? this.paymentFrequencyValue,
+      depositAmount: depositAmount ?? this.depositAmount,
+      notes: notes ?? this.notes,
+      isActive: isActive ?? this.isActive,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
   @override
   List<Object?> get props => [
     leaseId,
