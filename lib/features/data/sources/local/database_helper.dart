@@ -56,6 +56,17 @@ class DatabaseHelper {
   static const colLeaseIsActive = 'is_active';
   static const colLeaseCreatedAt = 'created_at';
 
+  // --- ScheduledPayments Table Columns ---
+  static const colScheduledPaymentId = 'scheduled_payment_id';
+  static const colScheduledPaymentLeaseId = 'lease_id'; // Foreign Key
+  static const colScheduledPaymentDueDate = 'due_date';
+  static const colScheduledPaymentAmountDue = 'amount_due';
+  static const colScheduledPaymentPeriodStartDate = 'period_start_date';
+  static const colScheduledPaymentPeriodEndDate = 'period_end_date';
+  static const colScheduledPaymentStatus = 'status';
+  static const colScheduledPaymentAmountPaidSoFar = 'amount_paid_so_far';
+  static const colScheduledPaymentCreatedAt = 'created_at';
+
   // Make this a singleton class.
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
@@ -139,6 +150,22 @@ class DatabaseHelper {
         $colLeaseCreatedAt TEXT NOT NULL DEFAULT (datetime('now', 'localtime')),
         FOREIGN KEY ($colLeaseUnitId) REFERENCES $tableUnits ($colUnitId) ON DELETE RESTRICT,
         FOREIGN KEY ($colLeaseTenantId) REFERENCES $tableTenants ($colTenantId) ON DELETE RESTRICT
+      )
+    ''');
+
+    // ScheduledPayments Table
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS $tableScheduledPayments (
+        $colScheduledPaymentId INTEGER PRIMARY KEY AUTOINCREMENT,
+        $colScheduledPaymentLeaseId INTEGER NOT NULL,
+        $colScheduledPaymentDueDate TEXT NOT NULL,
+        $colScheduledPaymentAmountDue REAL NOT NULL,
+        $colScheduledPaymentPeriodStartDate TEXT NOT NULL,
+        $colScheduledPaymentPeriodEndDate TEXT NOT NULL,
+        $colScheduledPaymentStatus TEXT NOT NULL DEFAULT 'Pending',
+        $colScheduledPaymentAmountPaidSoFar REAL DEFAULT 0.0,
+        $colScheduledPaymentCreatedAt TEXT NOT NULL DEFAULT (datetime('now', 'localtime')),
+        FOREIGN KEY ($colScheduledPaymentLeaseId) REFERENCES $tableLeases ($colLeaseId) ON DELETE CASCADE
       )
     ''');
   }

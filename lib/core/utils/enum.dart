@@ -53,3 +53,45 @@ extension PaymentFrequencyTypeExtension on PaymentFrequencyType {
     }
   }
 }
+
+enum ScheduledPaymentStatus {
+  pending,
+  partiallyPaid,
+  paid,
+  overdue,
+  cancelled, // Optional: if a lease is terminated early, etc.
+}
+
+extension ScheduledPaymentStatusExtension on ScheduledPaymentStatus {
+  String get value {
+    switch (this) {
+      case ScheduledPaymentStatus.pending:
+        return 'Pending';
+      case ScheduledPaymentStatus.partiallyPaid:
+        return 'Partially Paid';
+      case ScheduledPaymentStatus.paid:
+        return 'Paid';
+      case ScheduledPaymentStatus.overdue:
+        return 'Overdue';
+      case ScheduledPaymentStatus.cancelled:
+        return 'Cancelled';
+    }
+  }
+
+  static ScheduledPaymentStatus fromString(String? statusString) {
+    switch (statusString) {
+      case 'Pending':
+        return ScheduledPaymentStatus.pending;
+      case 'Partially Paid':
+        return ScheduledPaymentStatus.partiallyPaid;
+      case 'Paid':
+        return ScheduledPaymentStatus.paid;
+      case 'Overdue':
+        return ScheduledPaymentStatus.overdue;
+      case 'Cancelled':
+        return ScheduledPaymentStatus.cancelled;
+      default:
+        return ScheduledPaymentStatus.pending; // Default
+    }
+  }
+}
