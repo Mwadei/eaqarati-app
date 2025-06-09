@@ -1,14 +1,19 @@
+import 'package:eaqarati_app/core/services/payment_schedule_service.dart';
+import 'package:eaqarati_app/core/services/settings_service.dart';
 import 'package:eaqarati_app/features/data/repositories/lease_repository_impl.dart';
 import 'package:eaqarati_app/features/data/repositories/property_repository_impl.dart';
+import 'package:eaqarati_app/features/data/repositories/scheduled_payment_repository_impl.dart';
 import 'package:eaqarati_app/features/data/repositories/tenant_repository_impl.dart';
 import 'package:eaqarati_app/features/data/repositories/units_repository_impl.dart';
 import 'package:eaqarati_app/features/data/sources/local/database_helper.dart';
 import 'package:eaqarati_app/features/data/sources/local/lease_local_data_source.dart';
 import 'package:eaqarati_app/features/data/sources/local/property_local_data_source.dart';
+import 'package:eaqarati_app/features/data/sources/local/scheduled_payment_local_data_source.dart';
 import 'package:eaqarati_app/features/data/sources/local/tenant_local_data_source.dart';
 import 'package:eaqarati_app/features/data/sources/local/unit_local_data_source.dart';
 import 'package:eaqarati_app/features/domain/repositories/lease_repository.dart';
 import 'package:eaqarati_app/features/domain/repositories/property_repository.dart';
+import 'package:eaqarati_app/features/domain/repositories/scheduled_payment_repository.dart';
 import 'package:eaqarati_app/features/domain/repositories/tenant_repository.dart';
 import 'package:eaqarati_app/features/domain/repositories/units_repository.dart';
 import 'package:eaqarati_app/features/domain/usecases/leases/add_lease_use_case.dart';
@@ -24,6 +29,16 @@ import 'package:eaqarati_app/features/domain/usecases/property/delete_property_u
 import 'package:eaqarati_app/features/domain/usecases/property/get_all_properties_use_case.dart';
 import 'package:eaqarati_app/features/domain/usecases/property/get_property_by_id_use_case.dart';
 import 'package:eaqarati_app/features/domain/usecases/property/update_property_use_case.dart';
+import 'package:eaqarati_app/features/domain/usecases/scheduled_payment/add_scheduled_payment_use_case.dart';
+import 'package:eaqarati_app/features/domain/usecases/scheduled_payment/add_scheduled_payments_batch_use_case.dart';
+import 'package:eaqarati_app/features/domain/usecases/scheduled_payment/delete_scheduled_payment_use_case.dart';
+import 'package:eaqarati_app/features/domain/usecases/scheduled_payment/delete_scheduled_payments_by_lease_id_use_case.dart';
+import 'package:eaqarati_app/features/domain/usecases/scheduled_payment/get_all_scheduled_payment_use_case.dart';
+import 'package:eaqarati_app/features/domain/usecases/scheduled_payment/get_overdue_scheduled_payments_use_case.dart';
+import 'package:eaqarati_app/features/domain/usecases/scheduled_payment/get_scheduled_payment_by_id_use_case.dart';
+import 'package:eaqarati_app/features/domain/usecases/scheduled_payment/get_scheduled_payment_by_status.dart';
+import 'package:eaqarati_app/features/domain/usecases/scheduled_payment/get_scheduled_payments_by_lease_id_use_case.dart';
+import 'package:eaqarati_app/features/domain/usecases/scheduled_payment/update_scheduled_payment_use_case.dart';
 import 'package:eaqarati_app/features/domain/usecases/tenants/add_tenant_use_case.dart';
 import 'package:eaqarati_app/features/domain/usecases/tenants/delete_tenant_use_case.dart';
 import 'package:eaqarati_app/features/domain/usecases/tenants/get_all_tenants_use_case.dart';
@@ -111,8 +126,34 @@ Future<void> init() async {
   sl.registerLazySingleton<LeaseLocalDataSource>(
     () => LeaseLocalDataSourceImpl(databaseHelper: sl()),
   );
+
+  // ----- ScheduledPayments (New) -----
+  // Use Cases
+  sl.registerLazySingleton(() => AddScheduledPaymentUseCase(sl()));
+  sl.registerLazySingleton(() => AddScheduledPaymentsBatchUseCase(sl()));
+  sl.registerLazySingleton(() => GetScheduledPaymentByIdUseCase(sl()));
+  sl.registerLazySingleton(() => GetScheduledPaymentsByLeaseIdUseCase(sl()));
+  sl.registerLazySingleton(() => GetOverdueScheduledPaymentsUseCase(sl()));
+  sl.registerLazySingleton(() => UpdateScheduledPaymentUseCase(sl()));
+  sl.registerLazySingleton(() => DeleteScheduledPaymentUseCase(sl()));
+  sl.registerLazySingleton(() => DeleteScheduledPaymentsByLeaseIdUseCase(sl()));
+  sl.registerLazySingleton(() => GetAllScheduledPaymentUseCase(sl()));
+  sl.registerLazySingleton(() => GetScheduledPaymentByStatus(sl()));
+  // Repository
+  sl.registerLazySingleton<ScheduledPaymentRepository>(
+    () => ScheduledPaymentRepositoryImpl(localDataSource: sl()),
+  );
+  // Data Source
+  sl.registerLazySingleton<ScheduledPaymentLocalDataSource>(
+    () => ScheduledPaymentLocalDataSourceImpl(databaseHelper: sl()),
+  );
+
   //-------------------------------------------------------------------------------------------------
   //-------------------------------------------------------------------------------------------------
+
+  // ----- Services (New) -----
+  sl.registerLazySingleton(() => PaymentScheduleService());
+  sl.registerLazySingleton(() => SettingsService());
 
   // Database Helper
   sl.registerLazySingleton<DatabaseHelper>(() => DatabaseHelper.instance);
