@@ -4,7 +4,7 @@ sealed class PropertyState extends Equatable {
   const PropertyState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 final class PropertyInitial extends PropertyState {}
@@ -17,7 +17,7 @@ class PropertyLoaded extends PropertyState {
   const PropertyLoaded(this.property);
 
   @override
-  List<Object> get props => [property];
+  List<Object?> get props => [property];
 }
 
 class PropertiesLoaded extends PropertyState {
@@ -26,7 +26,7 @@ class PropertiesLoaded extends PropertyState {
   const PropertiesLoaded(this.properties);
 
   @override
-  List<Object> get props => [properties];
+  List<Object?> get props => [properties];
 }
 
 class PropertyAddedSuccess extends PropertyState {
@@ -35,7 +35,7 @@ class PropertyAddedSuccess extends PropertyState {
   const PropertyAddedSuccess(this.propertyId);
 
   @override
-  List<Object> get props => [propertyId];
+  List<Object?> get props => [propertyId];
 }
 
 class PropertyUpdateSuccess extends PropertyState {}
@@ -48,5 +48,5 @@ class PropertyError extends PropertyState {
   const PropertyError(this.message);
 
   @override
-  List<Object> get props => [message];
+  List<Object?> get props => [message];
 }
