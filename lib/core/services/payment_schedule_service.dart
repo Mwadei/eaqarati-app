@@ -62,23 +62,11 @@ class PaymentScheduleService {
             0,
           ); // Last day of current month
           if (periodEndDate.isAfter(leaseEndDate)) periodEndDate = leaseEndDate;
-          currentPeriodStart = DateTime(
+          currentPeriodStart = _createSafeDate(
             year,
             month + 1,
-            lease.startDate.day > 28
-                ? _lastDayOfMonth(year, month + 1)
-                : lease.startDate.day,
-          ); // Next month, same day or last day
-          // Ensure currentPeriodStart's day does not exceed days in next month
-          if (currentPeriodStart.month !=
-              (month + 1 > 12 ? (month + 1) % 12 : month + 1)) {
-            // Correction if day jumped month
-            currentPeriodStart = DateTime(
-              year,
-              month + 2,
-              0,
-            ); // last day of target month
-          }
+            lease.startDate.day,
+          );
 
           break;
         case PaymentFrequencyType.quarterly:
@@ -86,7 +74,7 @@ class PaymentScheduleService {
           int year = currentPeriodStart.year;
           int month = currentPeriodStart.month;
           // End of the quarter (simplified: 3 months from start)
-          DateTime tempPeriodEnd = DateTime(
+          DateTime tempPeriodEnd = _createSafeDate(
             year,
             month + 3,
             0,
@@ -96,39 +84,27 @@ class PaymentScheduleService {
                   ? leaseEndDate
                   : tempPeriodEnd;
 
-          currentPeriodStart = DateTime(
+          currentPeriodStart = _createSafeDate(
             year,
-            month + 3,
-            lease.startDate.day > 28
-                ? _lastDayOfMonth(year, month + 3)
-                : lease.startDate.day,
+            month + 3, // Advance by 3 months
+            lease.startDate.day,
           );
-          if (currentPeriodStart.month !=
-              ((month + 3) % 12 == 0 ? 12 : (month + 3) % 12)) {
-            currentPeriodStart = DateTime(year, month + 4, 0);
-          }
           break;
         case PaymentFrequencyType.semiAnnually:
           dueDate = currentPeriodStart;
           int year = currentPeriodStart.year;
           int month = currentPeriodStart.month;
-          DateTime tempPeriodEnd = DateTime(year, month + 6, 0);
+          DateTime tempPeriodEnd = _createSafeDate(year, month + 6, 0);
           periodEndDate =
               tempPeriodEnd.isAfter(leaseEndDate)
                   ? leaseEndDate
                   : tempPeriodEnd;
 
-          currentPeriodStart = DateTime(
+          currentPeriodStart = _createSafeDate(
             year,
-            month + 6,
-            lease.startDate.day > 28
-                ? _lastDayOfMonth(year, month + 6)
-                : lease.startDate.day,
+            month + 6, // Advance by 6 months
+            lease.startDate.day,
           );
-          if (currentPeriodStart.month !=
-              ((month + 6) % 12 == 0 ? 12 : (month + 6) % 12)) {
-            currentPeriodStart = DateTime(year, month + 7, 0);
-          }
           break;
         case PaymentFrequencyType.annually:
           dueDate = currentPeriodStart;

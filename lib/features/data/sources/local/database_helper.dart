@@ -181,7 +181,7 @@ class DatabaseHelper {
       )
     ''');
 
-    // Payments Table (New)
+    // Payments Table
     await db.execute('''
       CREATE TABLE IF NOT EXISTS $tablePayments (
         $colPaymentId INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -195,8 +195,8 @@ class DatabaseHelper {
         $colPaymentNotes TEXT,
         $colPaymentCreatedAt TEXT NOT NULL DEFAULT (datetime('now', 'localtime')),
         FOREIGN KEY ($colPaymentScheduledPaymentId) REFERENCES $tableScheduledPayments ($colScheduledPaymentId) ON DELETE SET NULL, 
-        FOREIGN KEY ($colPaymentLeaseId) REFERENCES $tableLeases ($colLeaseId) ON DELETE CASCADE,
-        FOREIGN KEY ($colPaymentTenantId) REFERENCES $tableTenants ($colTenantId) ON DELETE RESTRICT
+        FOREIGN KEY ($colPaymentLeaseId) REFERENCES $tableLeases ($colLeaseId) ON DELETE SET NULL,
+        FOREIGN KEY ($colPaymentTenantId) REFERENCES $tableTenants ($colTenantId) ON DELETE SET NULL
       )
     ''');
   }
