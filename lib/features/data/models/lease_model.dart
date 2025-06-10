@@ -61,6 +61,7 @@ class LeaseModel extends LeaseEntity {
     };
   }
 
+  @override
   LeaseModel copyWith({
     int? leaseId,
     int? unitId,

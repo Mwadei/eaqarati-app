@@ -201,8 +201,9 @@ class PaymentScheduleService {
       }
 
       installmentNumber++;
-      if (installmentNumber > 500)
+      if (installmentNumber > 500) {
         break; // Safety break for very long leases or bugs
+      }
     }
 
     // Adjust the periodStartDate for the first element if it was calculated based on schedules.last
