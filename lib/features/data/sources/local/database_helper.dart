@@ -67,6 +67,18 @@ class DatabaseHelper {
   static const colScheduledPaymentAmountPaidSoFar = 'amount_paid_so_far';
   static const colScheduledPaymentCreatedAt = 'created_at';
 
+  // --- Payments Table Columns ---
+  static const colPaymentId = 'payment_id';
+  static const colPaymentScheduledPaymentId = 'scheduled_payment_id';
+  static const colPaymentLeaseId = 'lease_id';
+  static const colPaymentTenantId = 'tenant_id';
+  static const colPaymentDate = 'payment_date';
+  static const colPaymentAmountPaid = 'amount_paid';
+  static const colPaymentMethod = 'payment_method';
+  static const colPaymentReceiptImagePath = 'receipt_image_path';
+  static const colPaymentNotes = 'notes';
+  static const colPaymentCreatedAt = 'created_at';
+
   // Make this a singleton class.
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
@@ -166,6 +178,25 @@ class DatabaseHelper {
         $colScheduledPaymentAmountPaidSoFar REAL DEFAULT 0.0,
         $colScheduledPaymentCreatedAt TEXT NOT NULL DEFAULT (datetime('now', 'localtime')),
         FOREIGN KEY ($colScheduledPaymentLeaseId) REFERENCES $tableLeases ($colLeaseId) ON DELETE CASCADE
+      )
+    ''');
+
+    // Payments Table (New)
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS $tablePayments (
+        $colPaymentId INTEGER PRIMARY KEY AUTOINCREMENT,
+        $colPaymentScheduledPaymentId INTEGER, 
+        $colPaymentLeaseId INTEGER NOT NULL,
+        $colPaymentTenantId INTEGER NOT NULL,
+        $colPaymentDate TEXT NOT NULL,
+        $colPaymentAmountPaid REAL NOT NULL,
+        $colPaymentMethod TEXT,
+        $colPaymentReceiptImagePath TEXT,
+        $colPaymentNotes TEXT,
+        $colPaymentCreatedAt TEXT NOT NULL DEFAULT (datetime('now', 'localtime')),
+        FOREIGN KEY ($colPaymentScheduledPaymentId) REFERENCES $tableScheduledPayments ($colScheduledPaymentId) ON DELETE SET NULL, 
+        FOREIGN KEY ($colPaymentLeaseId) REFERENCES $tableLeases ($colLeaseId) ON DELETE CASCADE,
+        FOREIGN KEY ($colPaymentTenantId) REFERENCES $tableTenants ($colTenantId) ON DELETE RESTRICT
       )
     ''');
   }

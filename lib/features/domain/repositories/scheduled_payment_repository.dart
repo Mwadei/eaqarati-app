@@ -23,8 +23,9 @@ abstract class ScheduledPaymentRepository {
     Transaction? transaction,
   });
   Future<Either<Failure, Unit>> updateScheduledPayment(
-    ScheduledPaymentEntity payment,
-  );
+    ScheduledPaymentEntity payment, {
+    Transaction? transaction,
+  });
   Future<Either<Failure, Unit>> deleteScheduledPayment(int id);
   Future<Either<Failure, Unit>> deleteScheduledPaymentsByLeaseId(
     int leaseId, {

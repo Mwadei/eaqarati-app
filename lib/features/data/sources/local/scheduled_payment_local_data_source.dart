@@ -21,7 +21,10 @@ abstract class ScheduledPaymentLocalDataSource {
     List<ScheduledPaymentModel> payments, {
     Transaction? txn,
   });
-  Future<int> updateScheduledPayment(ScheduledPaymentModel payment);
+  Future<int> updateScheduledPayment(
+    ScheduledPaymentModel payment, {
+    Transaction? txn,
+  });
   Future<int> deleteScheduledPayment(int id);
   Future<int> deleteScheduledPaymentsByLeaseId(int leaseId, {Transaction? txn});
 }
@@ -226,11 +229,14 @@ class ScheduledPaymentLocalDataSourceImpl
   }
 
   @override
-  Future<int> updateScheduledPayment(ScheduledPaymentModel payment) async {
-    final db = await databaseHelper.database;
+  Future<int> updateScheduledPayment(
+    ScheduledPaymentModel payment, {
+    Transaction? txn,
+  }) async {
+    final dbOrTxn = txn ?? await databaseHelper.database;
     _logger.i("Updating scheduled payment: ${payment.toMap().toString()}");
     try {
-      return await db.update(
+      return await dbOrTxn.update(
         DatabaseHelper.tableScheduledPayments,
         payment.toMap(),
         where: '${DatabaseHelper.colScheduledPaymentId} = ?',

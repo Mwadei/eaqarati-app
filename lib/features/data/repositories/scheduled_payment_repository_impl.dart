@@ -235,8 +235,9 @@ class ScheduledPaymentRepositoryImpl implements ScheduledPaymentRepository {
 
   @override
   Future<Either<Failure, Unit>> updateScheduledPayment(
-    ScheduledPaymentEntity payment,
-  ) async {
+    ScheduledPaymentEntity payment, {
+    Transaction? transaction,
+  }) async {
     try {
       if (payment.scheduledPaymentId == null) {
         return Left(
