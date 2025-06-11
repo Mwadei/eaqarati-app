@@ -60,6 +60,13 @@ import 'package:eaqarati_app/features/domain/usecases/units/get_all_units_use_ca
 import 'package:eaqarati_app/features/domain/usecases/units/get_unit_by_id_use_case.dart';
 import 'package:eaqarati_app/features/domain/usecases/units/get_units_by_property_id_use_case.dart';
 import 'package:eaqarati_app/features/domain/usecases/units/update_unit_use_case.dart';
+import 'package:eaqarati_app/features/presentation/blocs/lease/lease_bloc.dart';
+import 'package:eaqarati_app/features/presentation/blocs/payment/payment_bloc.dart';
+import 'package:eaqarati_app/features/presentation/blocs/property/property_bloc.dart';
+import 'package:eaqarati_app/features/presentation/blocs/scheduled_payment/scheduled_payment_bloc.dart';
+import 'package:eaqarati_app/features/presentation/blocs/settings/settings_bloc.dart';
+import 'package:eaqarati_app/features/presentation/blocs/tenant/tenant_bloc.dart';
+import 'package:eaqarati_app/features/presentation/blocs/units/units_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 final sl = GetIt.instance;
@@ -192,10 +199,72 @@ Future<void> init() async {
   //-------------------------------------------------------------------------------------------------
   //-------------------------------------------------------------------------------------------------
 
-  // ----- Services (New) -----
+  // ----- Services -----
   sl.registerLazySingleton(() => PaymentScheduleService());
   sl.registerLazySingleton(() => SettingsService());
 
-  // Database Helper
+  // ----- Database Helper -----
   sl.registerLazySingleton<DatabaseHelper>(() => DatabaseHelper.instance);
+
+  // ----- Blocs -----
+  sl.registerFactory(() => SettingsBloc(sl()));
+  sl.registerFactory(
+    () => LeaseBloc(
+      getActiveLeasesUseCase: sl(),
+      getAllLeasesUseCase: sl(),
+      getLeaseByIdUseCase: sl(),
+      getLeasesByTenantIdUseCase: sl(),
+      getLeasesByUnitIdUseCase: sl(),
+      deleteLeaseUseCase: sl(),
+      createLeaseWithScheduleUseCase: sl(),
+      updateLeaseWithScheduleUseCase: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => PaymentBloc(
+      recordPaymentUseCase: sl(),
+      getPaymentsByLeaseIdUseCase: sl(),
+      getPaymentsByTenantIdUseCase: sl(),
+      getPaymentsByScheduledPaymentIdUseCase: sl(),
+      getPaymentByIdUseCase: sl(),
+      deletePaymentUseCase: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => PropertyBloc(
+      addPropertyUseCase: sl(),
+      getAllPropertiesUseCase: sl(),
+      getPropertyByIdUseCase: sl(),
+      updatePropertyUseCase: sl(),
+      deletePropertyUseCase: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => ScheduledPaymentBloc(
+      getScheduledPaymentsByLeaseIdUseCase: sl(),
+      getScheduledPaymentByIdUseCase: sl(),
+      getOverdueScheduledPaymentsUseCase: sl(),
+      getScheduledPaymentByStatusUseCase: sl(),
+      updateScheduledPaymentUseCase: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => TenantBloc(
+      addTenantUseCase: sl(),
+      getAllTenantsUseCase: sl(),
+      getTenantByIdUseCase: sl(),
+      updateTenantUseCase: sl(),
+      deleteTenantUseCase: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => UnitsBloc(
+      addUnitUseCase: sl(),
+      getAllUnitsUseCase: sl(),
+      getUnitsByPropertyIdUseCase: sl(),
+      getUnitByIdUseCase: sl(),
+      updateUnitUseCase: sl(),
+      deleteUnitUseCase: sl(),
+    ),
+  );
 }
