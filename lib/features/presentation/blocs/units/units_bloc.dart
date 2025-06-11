@@ -109,13 +109,13 @@ class UnitsBloc extends Bloc<UnitsEvent, UnitsState> {
 
   String _mapFailureToMessage(Failure failure) {
     switch (failure.runtimeType) {
-      case ServerFailure:
+      case const (ServerFailure):
         return 'Server Error: ${failure.message}';
-      case DatabaseFailure:
+      case const (DatabaseFailure):
         return 'Database Error: ${failure.message}';
-      case NotFoundFailure:
+      case const (NotFoundFailure):
         return 'Not Found: ${failure.message}';
-      case ValidationFailure:
+      case const (ValidationFailure):
         return 'Validation Error: ${failure.message}';
       default:
         return 'Unexpected error: ${failure.message}';

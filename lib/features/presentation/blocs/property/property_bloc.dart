@@ -99,13 +99,13 @@ class PropertyBloc extends Bloc<PropertyEvent, PropertyState> {
 
   String _mapFailureToMessage(Failure failure) {
     switch (failure.runtimeType) {
-      case ServerFailure _:
+      case const (ServerFailure):
         return 'Server Error: ${failure.message}';
-      case DatabaseFailure _:
+      case const (DatabaseFailure):
         return 'Database Error: ${failure.message}';
-      case CacheFailure _:
+      case const (CacheFailure):
         return 'Cache Error: ${failure.message}';
-      case ValidationFailure _:
+      case const (ValidationFailure):
         return 'Validation Error: ${failure.message}';
       default:
         return 'Unexpected error: ${failure.message}';
