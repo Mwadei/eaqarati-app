@@ -1,7 +1,8 @@
 {
     "app": {
-        "name": "MY APP",
-        "welcome" : "Welcome"
+        "name": "Eaqarati",
+        "welcome" : "Welcome",
+        "splash" : "Property Management Made Simple"
     },
     "auth": {
         "login_title": "Login",
