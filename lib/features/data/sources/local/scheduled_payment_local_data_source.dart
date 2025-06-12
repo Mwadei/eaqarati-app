@@ -27,6 +27,11 @@ abstract class ScheduledPaymentLocalDataSource {
   });
   Future<int> deleteScheduledPayment(int id);
   Future<int> deleteScheduledPaymentsByLeaseId(int leaseId, {Transaction? txn});
+
+  Future<List<ScheduledPaymentModel>> getUpcomingScheduledPayments(
+    DateTime fromDate,
+    DateTime toDate,
+  );
 }
 
 class ScheduledPaymentLocalDataSourceImpl
@@ -246,6 +251,42 @@ class ScheduledPaymentLocalDataSourceImpl
       _logger.e(
         "Error updating scheduled payment ${payment.scheduledPaymentId}: $e",
       );
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<ScheduledPaymentModel>> getUpcomingScheduledPayments(
+    DateTime fromDate,
+    DateTime toDate,
+  ) async {
+    final db = await databaseHelper.database;
+    final fromDateString = fromDate.toIso8601String().substring(0, 10);
+    final toDateString = toDate.toIso8601String().substring(0, 10);
+
+    _logger.i(
+      "Getting upcoming scheduled payments from $fromDateString to $toDateString",
+    );
+
+    try {
+      final List<Map<String, dynamic>> upcomingPayments = await db.query(
+        DatabaseHelper.tableScheduledPayments,
+        where:
+            '${DatabaseHelper.colScheduledPaymentDueDate} >= ? AND ${DatabaseHelper.colScheduledPaymentDueDate} <= ? AND ${DatabaseHelper.colScheduledPaymentStatus} IN (?, ?)',
+        whereArgs: [
+          fromDateString,
+          toDateString,
+          ScheduledPaymentStatus.pending.value,
+          ScheduledPaymentStatus.partiallyPaid.value,
+        ],
+        orderBy: '${DatabaseHelper.colScheduledPaymentDueDate} ASC',
+      );
+
+      return upcomingPayments
+          .map((data) => ScheduledPaymentModel.fromMap(data))
+          .toList();
+    } catch (e) {
+      _logger.e("Error getting upcoming scheduled payments: $e");
       rethrow;
     }
   }

@@ -31,4 +31,7 @@ abstract class ScheduledPaymentRepository {
     int leaseId, {
     Transaction? transaction,
   });
+
+  Future<Either<Failure, List<ScheduledPaymentEntity>>>
+  getUpcomingScheduledPayments(DateTime fromDate, DateTime toDate);
 }

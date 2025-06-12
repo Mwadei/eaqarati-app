@@ -263,4 +263,22 @@ class ScheduledPaymentRepositoryImpl implements ScheduledPaymentRepository {
       return Left(ServerFailure('An unexpected error occurred.'));
     }
   }
+
+  @override
+  Future<Either<Failure, List<ScheduledPaymentEntity>>>
+  getUpcomingScheduledPayments(DateTime fromDate, DateTime toDate) async {
+    try {
+      final models = await localDataSource.getUpcomingScheduledPayments(
+        fromDate,
+        toDate,
+      );
+      return Right(models.map((m) => m as ScheduledPaymentEntity).toList());
+    } on DatabaseException catch (e) {
+      _logger.e('DBException getting upcoming payments: ${e.toString()}');
+      return Left(DatabaseFailure('Failed to get upcoming payments: $e'));
+    } catch (e) {
+      _logger.e('Error getting upcoming payments: ${e.toString()}');
+      return Left(ServerFailure('An unexpected error occurred.'));
+    }
+  }
 }
