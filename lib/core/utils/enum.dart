@@ -95,3 +95,7 @@ extension ScheduledPaymentStatusExtension on ScheduledPaymentStatus {
     }
   }
 }
+
+enum ActivityType { payment, lease, maintenance }
+
+enum ReminderType { rent, renewal }

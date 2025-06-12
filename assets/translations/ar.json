@@ -4,6 +4,14 @@
         "welcome": "مرحباً",
         "splash": "إدارة العقارات أصبحت بسيطة"
     },
+    "dashboard": {
+        "title": "لوحة التحكم",
+        "welcome": "أهلاً بعودتك! إليك نظرة عامة على عقارك",
+        "total_properties": "مجموع العقارات",
+        "occupied_units": "الوحدات المستأجره",
+        "overdue_payments": "الدفعات المتأخرة",
+        "monthly_recipient": "المستلم الشهري"
+    },
     "auth": {
         "login_title": "تسجيل الدخول",
         "username_label": "اسم المستخدم",

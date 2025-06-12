@@ -28,6 +28,18 @@ class LoadOverdueScheduledPayments extends ScheduledPaymentEvent {
   List<Object?> get props => [currentDate];
 }
 
+class LoadUpcomingScheduledPayments extends ScheduledPaymentEvent {
+  final DateTime fromDate;
+  final DateTime toDate;
+
+  const LoadUpcomingScheduledPayments({
+    required this.fromDate,
+    required this.toDate,
+  });
+  @override
+  List<Object?> get props => [fromDate, toDate];
+}
+
 class LoadScheduledPaymentsByStatus extends ScheduledPaymentEvent {
   final String status;
   const LoadScheduledPaymentsByStatus(this.status);

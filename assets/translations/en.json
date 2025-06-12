@@ -4,6 +4,14 @@
         "welcome" : "Welcome",
         "splash" : "Property Management Made Simple"
     },
+    "dashboard": {
+        "title" : "Dashboard",
+        "Welcome": "Welcome back! Here`s your property overview",
+        "total_properties": "Total properties",
+        "occupied_units":"Occupied units",
+        "overdue_payments": "Overdue Payments",
+        "monthly_recipient": "Monthly recipient"
+    },
     "auth": {
         "login_title": "Login",
         "username_label": "Username",

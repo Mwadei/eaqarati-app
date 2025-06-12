@@ -72,6 +72,7 @@ import 'package:eaqarati_app/features/presentation/blocs/settings/settings_bloc.
 import 'package:eaqarati_app/features/presentation/blocs/tenant/tenant_bloc.dart';
 import 'package:eaqarati_app/features/presentation/blocs/units/units_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 final sl = GetIt.instance;
 
@@ -232,10 +233,13 @@ Future<void> init() async {
 
   //-------------------------------------------------------------------------------------------------
   //-------------------------------------------------------------------------------------------------
-
+  // ----- Hive -----
+  await Hive.initFlutter();
+  sl.registerLazySingleton<SettingsService>(() => SettingsService());
+  // Initialize the service (opens the Hive box)
+  await sl<SettingsService>().init();
   // ----- Services -----
   sl.registerLazySingleton(() => PaymentScheduleService());
-  sl.registerLazySingleton(() => SettingsService());
 
   // ----- Database Helper -----
   sl.registerLazySingleton<DatabaseHelper>(() => DatabaseHelper.instance);
@@ -280,6 +284,7 @@ Future<void> init() async {
       getOverdueScheduledPaymentsUseCase: sl(),
       getScheduledPaymentByStatusUseCase: sl(),
       updateScheduledPaymentUseCase: sl(),
+      getUpcomingScheduledPaymentsUseCase: sl(),
     ),
   );
   sl.registerFactory(

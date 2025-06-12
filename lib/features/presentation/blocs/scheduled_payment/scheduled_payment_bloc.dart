@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:eaqarati_app/core/errors/failures.dart';
 import 'package:eaqarati_app/features/domain/entities/scheduled_payment_entity.dart';
@@ -5,6 +7,7 @@ import 'package:eaqarati_app/features/domain/usecases/scheduled_payment/get_over
 import 'package:eaqarati_app/features/domain/usecases/scheduled_payment/get_scheduled_payment_by_id_use_case.dart';
 import 'package:eaqarati_app/features/domain/usecases/scheduled_payment/get_scheduled_payment_by_status.dart';
 import 'package:eaqarati_app/features/domain/usecases/scheduled_payment/get_scheduled_payments_by_lease_id_use_case.dart';
+import 'package:eaqarati_app/features/domain/usecases/scheduled_payment/get_upcoming_scheduled_payments_use_case.dart';
 import 'package:eaqarati_app/features/domain/usecases/scheduled_payment/update_scheduled_payment_use_case.dart';
 import 'package:equatable/equatable.dart';
 
@@ -19,6 +22,7 @@ class ScheduledPaymentBloc
   final GetOverdueScheduledPaymentsUseCase getOverdueScheduledPaymentsUseCase;
   final GetScheduledPaymentByStatus getScheduledPaymentByStatusUseCase;
   final UpdateScheduledPaymentUseCase updateScheduledPaymentUseCase;
+  final GetUpcomingScheduledPaymentsUseCase getUpcomingScheduledPaymentsUseCase;
 
   ScheduledPaymentBloc({
     required this.getScheduledPaymentsByLeaseIdUseCase,
@@ -26,10 +30,12 @@ class ScheduledPaymentBloc
     required this.getOverdueScheduledPaymentsUseCase,
     required this.getScheduledPaymentByStatusUseCase,
     required this.updateScheduledPaymentUseCase,
+    required this.getUpcomingScheduledPaymentsUseCase,
   }) : super(ScheduledPaymentInitial()) {
     on<LoadScheduledPaymentsByLeaseId>(_onLoadScheduledPaymentsByLeaseId);
     on<LoadScheduledPaymentDetails>(_onLoadScheduledPaymentDetails);
     on<LoadOverdueScheduledPayments>(_onLoadOverdueScheduledPayments);
+    on<LoadUpcomingScheduledPayments>(_onLoadUpcomingScheduledPayments);
     on<LoadScheduledPaymentsByStatus>(_onLoadScheduledPaymentsByStatus);
     on<UpdateManuallyScheduledPayment>(_onUpdateManuallyScheduledPayment);
   }
@@ -67,6 +73,21 @@ class ScheduledPaymentBloc
     emit(ScheduledPaymentLoading());
     final result = await getOverdueScheduledPaymentsUseCase(
       currentDate: event.currentDate,
+    );
+    result.fold(
+      (failure) => emit(ScheduledPaymentError(_mapFailureToMessage(failure))),
+      (payments) => emit(ScheduledPaymentsLoaded(payments)),
+    );
+  }
+
+  Future<void> _onLoadUpcomingScheduledPayments(
+    LoadUpcomingScheduledPayments event,
+    Emitter<ScheduledPaymentState> emit,
+  ) async {
+    emit(ScheduledPaymentLoading());
+    final result = await getUpcomingScheduledPaymentsUseCase(
+      fromDate: event.fromDate,
+      toDate: event.toDate,
     );
     result.fold(
       (failure) => emit(ScheduledPaymentError(_mapFailureToMessage(failure))),
