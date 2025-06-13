@@ -14,7 +14,18 @@
         "quick_actions": "Quick Actions",
         "add_property": "Add Property",
         "add_tenant": "Add Tenant",
-        "add_payment": "Add Payment"
+        "add_payment": "Add Payment",
+        "view_all": "View all",
+        "recent_activity": "Recent Activities",
+        "no_recent_activity": "No Recent Activities",
+        "upcoming_reminders": "Upcoming Reminders",
+        "sample_lease_renewal_due": "Sample Lease Renewal Due",
+        "sample_rent_due": "Sample Rent Due",
+        "rent_due_today": "Rent Due Today",
+        "rent_due_tomorrow": "Rent Due Tomorrow",
+        "rent_due_in_days": "Rent Due in {days} days",
+        "rent_reminder_details": "Rent Reminder Details: {count} payments totaling {amount}",
+        "no_upcoming_reminders": "No Upcoming Reminders"
     },
     "auth": {
         "login_title": "Login",

@@ -14,7 +14,19 @@
         "quick_actions": "إجراءات سريعه",
         "add_property": "إضافة عقار",
         "add_tenant": "إضافة مستأجر",
-        "add_payment": "إضافة الدفع"
+        "add_payment": "إضافة الدفع",
+        "view_all": "عرض الكل",
+        "recent_activity": "الأنشطة الأخيرة",
+        "no_recent_activity": "لا توجد أنشطة",
+        "upcoming_reminders": "التذكيرات القادمة",
+        "sample_lease_renewal_due": "استحقاق تجديد عقد الإيجار",
+        "sample_rent_due": "استحقاق الإيجار",
+        "rent_due_today": "الإيجار مستحق اليوم",
+        "rent_due_tomorrow": "الإيجار مستحق غداً",
+        "rent_due_in_days": "الإيجار مستحق في {days} أيام",
+        "rent_reminder_details": "تفاصيل تذكير الإيجار: {count} دفعات بمجموع {amount}",
+        "no_upcoming_reminders": "لا توجد تذكيرات قادمة"
+
     },
     "auth": {
         "login_title": "تسجيل الدخول",

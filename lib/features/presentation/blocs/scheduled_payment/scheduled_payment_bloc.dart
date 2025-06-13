@@ -44,7 +44,7 @@ class ScheduledPaymentBloc
     LoadScheduledPaymentsByLeaseId event,
     Emitter<ScheduledPaymentState> emit,
   ) async {
-    emit(ScheduledPaymentLoading());
+    emit(const ScheduledPaymentLoading());
     final result = await getScheduledPaymentsByLeaseIdUseCase(event.leaseId);
     result.fold(
       (failure) => emit(ScheduledPaymentError(_mapFailureToMessage(failure))),
@@ -56,7 +56,7 @@ class ScheduledPaymentBloc
     LoadScheduledPaymentDetails event,
     Emitter<ScheduledPaymentState> emit,
   ) async {
-    emit(ScheduledPaymentLoading());
+    emit(const ScheduledPaymentLoading());
     final result = await getScheduledPaymentByIdUseCase(
       event.scheduledPaymentId,
     );
@@ -70,7 +70,7 @@ class ScheduledPaymentBloc
     LoadOverdueScheduledPayments event,
     Emitter<ScheduledPaymentState> emit,
   ) async {
-    emit(ScheduledPaymentLoading());
+    emit(const ScheduledPaymentLoading());
     final result = await getOverdueScheduledPaymentsUseCase(
       currentDate: event.currentDate,
     );
@@ -84,14 +84,14 @@ class ScheduledPaymentBloc
     LoadUpcomingScheduledPayments event,
     Emitter<ScheduledPaymentState> emit,
   ) async {
-    emit(ScheduledPaymentLoading());
+    emit(const ScheduledPaymentLoading(operationKey: 'upcoming'));
     final result = await getUpcomingScheduledPaymentsUseCase(
       fromDate: event.fromDate,
       toDate: event.toDate,
     );
     result.fold(
       (failure) => emit(ScheduledPaymentError(_mapFailureToMessage(failure))),
-      (payments) => emit(ScheduledPaymentsLoaded(payments)),
+      (payments) => emit(UpcomingScheduledPaymentsLoaded(payments)),
     );
   }
 
@@ -99,7 +99,7 @@ class ScheduledPaymentBloc
     LoadScheduledPaymentsByStatus event,
     Emitter<ScheduledPaymentState> emit,
   ) async {
-    emit(ScheduledPaymentLoading());
+    emit(const ScheduledPaymentLoading());
     final result = await getScheduledPaymentByStatusUseCase(event.status);
     result.fold(
       (failure) => emit(ScheduledPaymentError(_mapFailureToMessage(failure))),
@@ -111,7 +111,7 @@ class ScheduledPaymentBloc
     UpdateManuallyScheduledPayment event,
     Emitter<ScheduledPaymentState> emit,
   ) async {
-    emit(ScheduledPaymentLoading());
+    emit(const ScheduledPaymentLoading());
     final result = await updateScheduledPaymentUseCase(event.scheduledPayment);
     result.fold(
       (failure) => emit(ScheduledPaymentError(_mapFailureToMessage(failure))),

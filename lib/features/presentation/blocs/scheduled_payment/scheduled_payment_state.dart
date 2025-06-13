@@ -9,7 +9,13 @@ sealed class ScheduledPaymentState extends Equatable {
 
 final class ScheduledPaymentInitial extends ScheduledPaymentState {}
 
-class ScheduledPaymentLoading extends ScheduledPaymentState {}
+class ScheduledPaymentLoading extends ScheduledPaymentState {
+  final String?
+  operationKey; // Optional: to distinguish which loading operation
+  const ScheduledPaymentLoading({this.operationKey});
+  @override
+  List<Object?> get props => [operationKey];
+}
 
 class ScheduledPaymentsLoaded extends ScheduledPaymentState {
   final List<ScheduledPaymentEntity> scheduledPayments;
@@ -23,6 +29,13 @@ class ScheduledPaymentLoaded extends ScheduledPaymentState {
   const ScheduledPaymentLoaded(this.scheduledPayment);
   @override
   List<Object?> get props => [scheduledPayment];
+}
+
+class UpcomingScheduledPaymentsLoaded extends ScheduledPaymentState {
+  final List<ScheduledPaymentEntity> upcomingPayments;
+  const UpcomingScheduledPaymentsLoaded(this.upcomingPayments);
+  @override
+  List<Object?> get props => [upcomingPayments];
 }
 
 class ScheduledPaymentUpdateSuccess extends ScheduledPaymentState {}
