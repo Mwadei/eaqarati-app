@@ -570,14 +570,14 @@ class HomeScreen extends HookWidget {
 
               // TODO: Integrate LeaseBloc for lease renewals and combine with upcomingRentPayments
               // For now, using placeholder for renewals
-              final placeholderRenewals = [
-                if (upcomingRentPayments.length < 2)
-                  ReminderItemData(
-                    type: ReminderType.rent,
-                    title: "dashboard.sample_lease_renewal_due".tr(),
-                    details: "Unit 5A • Emily Davis • In 5 days",
-                  ),
-              ];
+              // final placeholderRenewals = [
+              //   if (upcomingRentPayments.length < 2)
+              //     ReminderItemData(
+              //       type: ReminderType.rent,
+              //       title: "dashboard.sample_lease_renewal_due".tr(),
+              //       details: "Unit 5A • Emily Davis • In 5 days",
+              //     ),
+              // ];
 
               List<ReminderItemData> displayReminders = [];
 
@@ -630,7 +630,7 @@ class HomeScreen extends HookWidget {
                 });
               }
               // Combine with lease renewal reminders when LeaseBloc is integrated
-              displayReminders.addAll(placeholderRenewals);
+              // displayReminders.addAll(placeholderRenewals);
 
               if (displayReminders.isEmpty) {
                 content = Center(
