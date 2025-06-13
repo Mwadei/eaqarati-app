@@ -7,10 +7,14 @@
     "dashboard": {
         "title" : "Dashboard",
         "Welcome": "Welcome back! Here`s your property overview",
-        "total_properties": "Total properties",
-        "occupied_units":"Occupied units",
+        "total_properties": "Total Properties",
+        "occupied_units":"Occupied Units",
         "overdue_payments": "Overdue Payments",
-        "monthly_recipient": "Monthly recipient"
+        "monthly_recipient": "Monthly Recipient",
+        "quick_actions": "Quick Actions",
+        "add_property": "Add Property",
+        "add_tenant": "Add Tenant",
+        "add_payment": "Add Payment"
     },
     "auth": {
         "login_title": "Login",

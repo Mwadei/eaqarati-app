@@ -54,7 +54,7 @@ class SummaryCard extends StatelessWidget {
       },
       child: Card(
         elevation: 0.2,
-        shadowColor: colorScheme.shadow.withOpacity(0.1),
+        shadowColor: colorScheme.shadow,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         color: colorScheme.surface,
         child:

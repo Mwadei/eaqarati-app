@@ -4,6 +4,7 @@ import 'package:eaqarati_app/features/presentation/blocs/lease/lease_bloc.dart';
 import 'package:eaqarati_app/features/presentation/blocs/property/property_bloc.dart';
 import 'package:eaqarati_app/features/presentation/blocs/scheduled_payment/scheduled_payment_bloc.dart';
 import 'package:eaqarati_app/features/presentation/widgets/card_loading_shimmer.dart';
+import 'package:eaqarati_app/features/presentation/widgets/quick_action_button.dart';
 import 'package:eaqarati_app/features/presentation/widgets/summary_card.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -106,6 +107,29 @@ class HomeScreen extends HookWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     _buildSummaryCards(context, overallAnimationController),
+                    const SizedBox(height: kVerticalSpaceMedium * 1.5),
+                    _buildQuickActions(
+                      context,
+                      textTheme,
+                      colorScheme,
+                      overallAnimationController,
+                    ),
+                    // const SizedBox(height: kVerticalSpaceMedium * 1.5),
+                    // _buildRecentActivity(
+                    //   context,
+                    //   textTheme,
+                    //   colorScheme,
+                    //   recentActivities.value,
+                    //   listEntranceAnimationController,
+                    // ),
+                    // const SizedBox(height: kVerticalSpaceMedium * 1.5),
+                    // _buildUpcomingReminders(
+                    //   context,
+                    //   textTheme,
+                    //   colorScheme,
+                    //   listEntranceAnimationController,
+                    // ),
+                    // const SizedBox(height: kVerticalSpaceMedium * 2),
                   ],
                 ),
               ),
@@ -198,7 +222,7 @@ class HomeScreen extends HookWidget {
             return SummaryCard(
               icon: Icons.home_work_outlined,
               iconColor: Theme.of(context).primaryColor,
-              iconBgColor: Colors.blue.shade50,
+              iconBgColor: Colors.transparent,
               count: count,
               label: 'dashboard.total_properties'.tr(),
               animationController: animationController,
@@ -225,7 +249,7 @@ class HomeScreen extends HookWidget {
             return SummaryCard(
               icon: Icons.people_alt_outlined,
               iconColor: Colors.green.shade700,
-              iconBgColor: Colors.green.shade50,
+              iconBgColor: Colors.transparent,
               count: count,
               label: 'dashboard.occupied_units'.tr(),
               animationController: animationController,
@@ -238,6 +262,9 @@ class HomeScreen extends HookWidget {
           builder: (context, state) {
             String count = "0";
             Widget? loadingWidget;
+            if (state is ScheduledPaymentLoading) {
+              loadingWidget = const CardLoadingShimmer();
+            }
             if (state is ScheduledPaymentsLoaded && state.props.isNotEmpty) {
               // Check props for specific list if bloc handles multiple
               final overdue =
@@ -252,13 +279,10 @@ class HomeScreen extends HookWidget {
                       .toList();
               count = overdue.length.toString();
             }
-            if (state is ScheduledPaymentLoading) {
-              loadingWidget = const CardLoadingShimmer();
-            }
             return SummaryCard(
               icon: Icons.timer_off_outlined, // Changed icon
               iconColor: Colors.orange.shade700,
-              iconBgColor: Colors.orange.shade50,
+              iconBgColor: Colors.transparent,
               count: count,
               label: 'dashboard.overdue_payments'.tr(),
               animationController: animationController,
@@ -284,7 +308,7 @@ class HomeScreen extends HookWidget {
                             p.status == ScheduledPaymentStatus.partiallyPaid),
                   )
                   .fold(0.0, (sum, item) => sum + item.amountPaidSoFar);
-              countText = '${NumberFormat("#,##0", "en_US").format(revenue)}';
+              countText = NumberFormat("#,##0", "en_US").format(revenue);
             }
             if (state is ScheduledPaymentLoading) {
               loadingWidget = const CardLoadingShimmer();
@@ -292,9 +316,7 @@ class HomeScreen extends HookWidget {
             return SummaryCard(
               icon: Icons.account_balance_wallet_outlined,
               iconColor: Theme.of(context).colorScheme.primary,
-              iconBgColor: Theme.of(
-                context,
-              ).colorScheme.primaryContainer.withOpacity(0.2),
+              iconBgColor: Colors.transparent,
               count: countText,
               label: 'dashboard.monthly_recipient'.tr(),
               animationController: animationController,
@@ -306,4 +328,90 @@ class HomeScreen extends HookWidget {
       ],
     );
   }
+
+  _buildQuickActions(
+    BuildContext context,
+    TextTheme textTheme,
+    ColorScheme colorScheme,
+    AnimationController overallAnimationController,
+  ) {
+    final actionAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: overallAnimationController,
+        curve: const Interval(0.3, 1.0, curve: Curves.easeOut),
+      ),
+    );
+
+    return AnimatedBuilder(
+      animation: actionAnimation,
+      builder:
+          (context, child) =>
+              Opacity(opacity: actionAnimation.value, child: child),
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: colorScheme.surface,
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 10,
+              color: colorScheme.shadow,
+              offset: Offset(0, 4),
+            ),
+          ],
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                'dashboard.quick_actions'.tr(),
+                style: textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: colorScheme.onBackground,
+                ),
+              ),
+              const SizedBox(height: kVerticalSpaceMedium),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  QuickActionButton(
+                    icon: Icons.add_home_outlined,
+                    label: 'dashboard.add_property'.tr(),
+                    onTap: () {},
+                  ),
+                  QuickActionButton(
+                    icon: Icons.person_add_outlined,
+                    label: 'dashboard.add_tenant'.tr(),
+                    onTap: () {},
+                  ),
+                  QuickActionButton(
+                    icon: Icons.payments_outlined,
+                    label: 'dashboard.add_payment'.tr(),
+                    onTap: () {},
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  _buildRecentActivity(
+    BuildContext context,
+    TextTheme textTheme,
+    ColorScheme colorScheme,
+    List<RecentActivityItemData> value,
+    AnimationController listEntranceAnimationController,
+  ) {}
+
+  _buildUpcomingReminders(
+    BuildContext context,
+    TextTheme textTheme,
+    ColorScheme colorScheme,
+    AnimationController listEntranceAnimationController,
+  ) {}
 }

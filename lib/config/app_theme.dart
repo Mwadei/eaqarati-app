@@ -53,6 +53,7 @@ class AppTheme {
   static const IconThemeData _lightIconTheme = IconThemeData(
     color: Color(0xFF262626),
   );
+  static const Color _lightShadowColor = Color(0x15000000);
   static final OutlinedButtonThemeData _lightOutlinedButtonTheme =
       OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
@@ -105,6 +106,7 @@ class AppTheme {
   static const IconThemeData _darkIconTheme = IconThemeData(
     color: Color(0xFFADADAD),
   );
+  static const Color _darkShadowColor = Color(0x15FFFFFF);
   static final OutlinedButtonThemeData _darkOutlinedButtonTheme =
       OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
@@ -174,6 +176,7 @@ class AppTheme {
         onSurface: _lightOnSurfaceColor,
         secondary: _lightSecondaryColor,
         tertiary: _lightTertiaryColor,
+        shadow: _lightShadowColor,
       ),
       iconTheme: _lightIconTheme,
       outlinedButtonTheme: _lightOutlinedButtonTheme,
@@ -208,6 +211,7 @@ class AppTheme {
         onSurface: _darkOnSurfaceColor,
         secondary: _darkSecondaryColor,
         tertiary: _darkTertiaryColor,
+        shadow: _darkShadowColor,
       ),
       iconTheme: _darkIconTheme,
       outlinedButtonTheme: _darkOutlinedButtonTheme,

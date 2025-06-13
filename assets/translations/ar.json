@@ -10,7 +10,11 @@
         "total_properties": "مجموع العقارات",
         "occupied_units": "الوحدات المستأجره",
         "overdue_payments": "الدفعات المتأخرة",
-        "monthly_recipient": "المستلم الشهري"
+        "monthly_recipient": "المستلم الشهري",
+        "quick_actions": "إجراءات سريعه",
+        "add_property": "إضافة عقار",
+        "add_tenant": "إضافة مستأجر",
+        "add_payment": "إضافة الدفع"
     },
     "auth": {
         "login_title": "تسجيل الدخول",
