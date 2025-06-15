@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final initialThemeMode = sl<SettingsService>().themeMode;
+    final initialLocale = sl<SettingsService>().locale;
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -52,17 +53,19 @@ class MyApp extends StatelessWidget {
       child: BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, settingsState) {
           ThemeMode currentThemeMode = initialThemeMode;
+          Locale currentLocale = initialLocale;
           if (settingsState is SettingsLoaded) {
             currentThemeMode = settingsState.themeMode;
+            currentLocale = settingsState.currentLocale;
           }
           return MaterialApp.router(
             localizationsDelegates: context.localizationDelegates,
             supportedLocales: context.supportedLocales,
-            locale: context.locale,
+            locale: currentLocale,
             title: 'Eaqarati app',
             theme: AppTheme().lightTheme(context),
             darkTheme: AppTheme().darkTheme(context),
-            themeMode: ThemeMode.system,
+            themeMode: currentThemeMode,
             routerConfig: AppRouter.router,
           );
         },

@@ -1,5 +1,14 @@
 enum SettingType { language, theme }
 
+enum PropertyType {
+  building,
+  apartment,
+  chalet,
+  villa,
+  office,
+  residential_complex,
+}
+
 enum UnitStatus { vacant, occupied, underMaintenance }
 
 enum PaymentFrequencyType {

@@ -13,6 +13,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreen extends HookWidget {
   const HomeScreen({super.key});
@@ -215,6 +216,7 @@ class HomeScreen extends HookWidget {
               animationController: animationController,
               itemIndex: 0,
               loadingWidget: loadingWidget,
+              onTap: () => context.push('/properties'),
             );
           },
         ),

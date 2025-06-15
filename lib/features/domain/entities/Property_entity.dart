@@ -1,10 +1,11 @@
+import 'package:eaqarati_app/core/utils/enum.dart';
 import 'package:equatable/equatable.dart';
 
 class PropertyEntity extends Equatable {
   final int? propertyId;
   final String name;
   final String? address;
-  final String type;
+  final PropertyType type;
   final String? notes;
   final DateTime createdAt;
 

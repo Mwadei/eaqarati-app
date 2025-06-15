@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:eaqarati_app/core/errors/failures.dart';
+import 'package:eaqarati_app/core/utils/enum.dart';
 import 'package:eaqarati_app/features/domain/entities/financial_statement_entry.dart';
 import 'package:eaqarati_app/features/domain/entities/lease_entity.dart';
 import 'package:eaqarati_app/features/domain/entities/property_entity.dart';
@@ -50,7 +51,7 @@ class GenerateAnnualFinancialStatementUseCase {
           propertyId: propertyId,
           name: '',
           address: '',
-          type: '',
+          type: PropertyType.building,
           notes: '',
           createdAt: DateTime.now(),
         ),

@@ -2,7 +2,8 @@
     "app": {
         "name": "عقاراتي",
         "welcome": "مرحباً",
-        "splash": "إدارة العقارات أصبحت بسيطة"
+        "splash": "إدارة العقارات أصبحت بسيطة",
+        "management_service": "إدارة العقارات"
     },
     "dashboard": {
         "title": "لوحة التحكم",
@@ -27,6 +28,13 @@
         "rent_reminder_details": "تفاصيل تذكير الإيجار: {count} دفعات بمجموع {amount}",
         "no_upcoming_reminders": "لا توجد تذكيرات قادمة"
 
+    },
+    "propertiesScreen": {
+        "properties_title" : "عقاراتي",
+        "properties_subtitle" : "إدارة ومراقبة جميع عقاراتك",
+        "total_properties_card_title": "مجموع العقارات",
+        "units_count": "{count} وحدات",
+        "no_properties": "لا توجد عقارات متاحة"
     },
     "auth": {
         "login_title": "تسجيل الدخول",

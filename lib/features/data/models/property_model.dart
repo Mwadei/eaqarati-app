@@ -1,3 +1,4 @@
+import 'package:eaqarati_app/core/utils/enum.dart';
 import 'package:eaqarati_app/features/data/sources/local/database_helper.dart';
 import 'package:eaqarati_app/features/domain/entities/property_entity.dart';
 
@@ -16,7 +17,7 @@ class PropertyModel extends PropertyEntity {
       propertyId: map[DatabaseHelper.colPropertyId] as int?,
       name: map[DatabaseHelper.colPropertyName] as String,
       address: map[DatabaseHelper.colPropertyAddress] as String,
-      type: map[DatabaseHelper.colPropertyType] as String,
+      type: map[DatabaseHelper.colPropertyType] as PropertyType,
       notes: map[DatabaseHelper.colPropertyNotes] as String,
       createdAt: DateTime.parse(
         map[DatabaseHelper.colPropertyCreatedAt] as String,
@@ -39,7 +40,7 @@ class PropertyModel extends PropertyEntity {
     int? propertyId,
     String? name,
     String? address,
-    String? type,
+    PropertyType? type,
     String? notes,
     DateTime? createdAt,
   }) {

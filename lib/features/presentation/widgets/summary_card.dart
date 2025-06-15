@@ -1,7 +1,8 @@
 import 'package:eaqarati_app/core/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
-class SummaryCard extends StatelessWidget {
+class SummaryCard extends HookWidget {
   final IconData icon;
   final Color iconColor;
   final Color iconBgColor;
@@ -10,6 +11,7 @@ class SummaryCard extends StatelessWidget {
   final AnimationController animationController;
   final int itemIndex;
   final Widget? loadingWidget;
+  final VoidCallback? onTap;
   const SummaryCard({
     super.key,
     required this.icon,
@@ -20,6 +22,7 @@ class SummaryCard extends StatelessWidget {
     required this.animationController,
     required this.itemIndex,
     this.loadingWidget,
+    this.onTap,
   });
 
   @override
@@ -27,6 +30,8 @@ class SummaryCard extends StatelessWidget {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
     final colorScheme = theme.colorScheme;
+
+    final isPressed = useState(false);
 
     final cardAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
@@ -52,52 +57,67 @@ class SummaryCard extends StatelessWidget {
           ),
         );
       },
-      child: Card(
-        elevation: 0.2,
-        shadowColor: colorScheme.shadow,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        color: colorScheme.surface,
-        child:
-            loadingWidget ??
-            Padding(
-              padding: const EdgeInsets.all(kPagePadding / 1.75),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(kVerticalSpaceSmall * 0.7),
-                    decoration: BoxDecoration(
-                      color: iconBgColor,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Icon(icon, color: iconColor, size: 20),
-                  ),
-                  const Spacer(),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
+      child: GestureDetector(
+        onTap: onTap,
+        onTapDown: (_) => isPressed.value = true,
+        onTapUp: (_) => isPressed.value = false,
+        onTapCancel: () => isPressed.value = false,
+        child: AnimatedScale(
+          scale: isPressed.value ? 0.9 : 1.0,
+          duration: const Duration(milliseconds: 100),
+          curve: Curves.easeOut,
+          child: Card(
+            elevation: 0.2,
+            shadowColor: colorScheme.shadow,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            color: colorScheme.surface,
+            child:
+                loadingWidget ??
+                Padding(
+                  padding: const EdgeInsets.all(kPagePadding / 1.75),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        count,
-                        style: textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30,
+                      Container(
+                        padding: const EdgeInsets.all(
+                          kVerticalSpaceSmall * 0.7,
                         ),
+                        decoration: BoxDecoration(
+                          color: iconBgColor,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Icon(icon, color: iconColor, size: 20),
                       ),
-                      const SizedBox(height: kVerticalSpaceSmall),
-                      Text(
-                        label,
-                        style: textTheme.bodySmall?.copyWith(
-                          color: colorScheme.onSurfaceVariant,
-                        ),
-                        maxLines: 2, // Allow two lines for label if needed
-                        overflow: TextOverflow.ellipsis,
+                      const Spacer(),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            count,
+                            style: textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 30,
+                            ),
+                          ),
+                          const SizedBox(height: kVerticalSpaceSmall),
+                          Text(
+                            label,
+                            style: textTheme.bodySmall?.copyWith(
+                              color: colorScheme.onSurfaceVariant,
+                            ),
+                            maxLines: 2, // Allow two lines for label if needed
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
-              ),
-            ),
+                ),
+          ),
+        ),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:eaqarati_app/features/presentation/pages/home/home_screen.dart';
+import 'package:eaqarati_app/features/presentation/pages/property/properties_screen.dart';
 import 'package:eaqarati_app/features/presentation/pages/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -17,6 +18,10 @@ class AppRouter {
         builder: (context, state) => const SplashScreen(),
       ),
       GoRoute(path: '/home', builder: (context, state) => const HomeScreen()),
+      GoRoute(
+        path: '/properties',
+        builder: (context, state) => const PropertiesScreen(),
+      ),
     ],
     errorBuilder:
         (context, state) => Scaffold(
