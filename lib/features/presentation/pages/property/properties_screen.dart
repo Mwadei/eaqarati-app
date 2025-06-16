@@ -189,8 +189,14 @@ class PropertiesScreen extends HookWidget {
           } else if (state is PropertyError) {
             bodyContent = Center(child: Text('Error: ${state.message}'));
           } else {
-            bodyContent = const Center(
-              child: CircularProgressIndicator(),
+            bodyContent = SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: kPagePadding),
+                  child: const PropertyListItemShimmer(),
+                ),
+                childCount: 3,
+              ),
             ); // Initial or unexpected state
           }
 
@@ -204,7 +210,7 @@ class PropertiesScreen extends HookWidget {
         scale: fabScaleAnimation,
         child: FloatingActionButton(
           onPressed: () async {
-            final result = await context.push('/properties/form');
+            final result = await context.pushNamed('propertyForm');
             if (result == true) {
               if (context.mounted) {
                 context.read<PropertyBloc>().add(LoadAllProperties());

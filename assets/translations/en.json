@@ -64,6 +64,25 @@
         "success_add": "Property added successfully!",
         "success_update": "Property updated successfully!"
     },
+    "property_details": {
+        "title": "Property Details",
+        "no_address": "No address provided",
+        "no_description": "No description available",
+        "units_title": "Units",
+        "total_units": "{count} Total",
+        "no_units_found": "No units found for this property.",
+        "edit_property_button": "Edit Property",
+        "add_unit_button": "Add Unit",
+        "add_unit_todo": "Add Unit functionality to be implemented.",
+        "error_loading_property": "Error loading property: {0}",
+        "error_loading_units": "Error loading units: {0}"
+    },  
+    "units": {
+        "unit_prefix": "Unit {0}",
+        "status_vacant": "Vacant",
+        "status_occupied": "Occupied",
+        "status_maintenance": "Maintenance"
+    },  
     "auth": {
         "login_title": "Login",
         "username_label": "Username",

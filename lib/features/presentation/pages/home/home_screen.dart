@@ -18,6 +18,21 @@ import 'package:go_router/go_router.dart';
 class HomeScreen extends HookWidget {
   const HomeScreen({super.key});
 
+  void _refreshData(BuildContext context) {
+    context.read<PropertyBloc>().add(LoadAllProperties());
+    context.read<LeaseBloc>().add(LoadActiveLeases());
+    context.read<ScheduledPaymentBloc>().add(LoadOverdueScheduledPayments());
+    context.read<ScheduledPaymentBloc>().add(
+      LoadScheduledPaymentsByLeaseId(-1),
+    );
+    context.read<ScheduledPaymentBloc>().add(
+      LoadUpcomingScheduledPayments(
+        fromDate: DateTime.now(),
+        toDate: DateTime.now().add(const Duration(days: 7)),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -33,18 +48,7 @@ class HomeScreen extends HookWidget {
     );
 
     useEffect(() {
-      context.read<PropertyBloc>().add(LoadAllProperties());
-      context.read<LeaseBloc>().add(LoadActiveLeases());
-      context.read<ScheduledPaymentBloc>().add(LoadOverdueScheduledPayments());
-      context.read<ScheduledPaymentBloc>().add(
-        LoadScheduledPaymentsByLeaseId(-1),
-      );
-      context.read<ScheduledPaymentBloc>().add(
-        LoadUpcomingScheduledPayments(
-          fromDate: DateTime.now(),
-          toDate: DateTime.now().add(const Duration(days: 7)),
-        ),
-      );
+      _refreshData(context);
 
       overallAnimationController.forward();
       Future.delayed(
@@ -370,7 +374,12 @@ class HomeScreen extends HookWidget {
                   QuickActionButton(
                     icon: Icons.add_home_outlined,
                     label: 'dashboard.add_property'.tr(),
-                    onTap: () {},
+                    onTap: () async {
+                      final result = await context.pushNamed('propertyForm');
+                      if (result == true && context.mounted) {
+                        _refreshData(context);
+                      }
+                    },
                   ),
                   QuickActionButton(
                     icon: Icons.person_add_outlined,

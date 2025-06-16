@@ -27,7 +27,6 @@
         "rent_due_in_days": "الإيجار مستحق في {days} أيام",
         "rent_reminder_details": "تفاصيل تذكير الإيجار: {count} دفعات بمجموع {amount}",
         "no_upcoming_reminders": "لا توجد تذكيرات قادمة"
-
     },
     "propertiesScreen": {
         "properties_title" : "عقاراتي",
@@ -64,6 +63,25 @@
         "error_select_type": "يرجى اختيار نوع العقار قبل الحفظ.",
         "success_add": "تمت إضافة العقار بنجاح!",
         "success_update": "تم تحديث العقار بنجاح!"
+    },
+    "property_details": {
+        "title": "تفاصيل العقار",
+        "no_address": "لم يتم تحديد عنوان",
+        "no_description": "لا توجد وصف متاح",
+        "units_title": "الوحدات",
+        "total_units": "{count} وحدة إجمالاً",
+        "no_units_found": "لم يتم العثور على وحدات لهذا العقار.",
+        "edit_property_button": "تعديل العقار",
+        "add_unit_button": "إضافة وحدة",
+        "add_unit_todo": "ميزة إضافة وحدة سيتم تنفيذها لاحقًا.",
+        "error_loading_property": "خطأ في تحميل بيانات العقار: {0}",
+        "error_loading_units": "خطأ في تحميل الوحدات: {0}"
+    },
+    "units": {
+        "unit_prefix": "الوحدة {0}",
+        "status_vacant": "شاغرة",
+        "status_occupied": "مؤجرة",
+        "status_maintenance": "صيانة"
     },
     "auth": {
         "login_title": "تسجيل الدخول",

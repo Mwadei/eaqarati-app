@@ -6,6 +6,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 
 class PropertyListItem extends HookWidget {
   final PropertyEntity property;
@@ -77,8 +78,16 @@ class PropertyListItem extends HookWidget {
       color: colorScheme.surface,
       child: InkWell(
         onTap: () {
-          // TODO: Navigate to Property Details Screen, pass property.propertyId
-          // context.go('/property-details/${property.propertyId}');
+          if (property.propertyId != null) {
+            context.pushNamed(
+              'propertyDetails',
+              pathParameters: {'propertyId': '${property.propertyId}'},
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Error: Property ID is missing.')),
+            );
+          }
         },
         borderRadius: BorderRadius.circular(16),
         child: Padding(
