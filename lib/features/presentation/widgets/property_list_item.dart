@@ -19,7 +19,7 @@ class PropertyListItem extends HookWidget {
       return Icons.villa_rounded;
     } else if (type == PropertyType.office) {
       return Icons.workspaces_outline;
-    } else if (type == PropertyType.residential_complex) {
+    } else if (type == PropertyType.residentialComplex) {
       return Icons.holiday_village_outlined;
     }
     return Icons.location_city_rounded;
@@ -35,7 +35,7 @@ class PropertyListItem extends HookWidget {
       return Colors.green.shade50;
     } else if (type == PropertyType.office) {
       return Colors.orange.shade50;
-    } else if (type == PropertyType.residential_complex) {
+    } else if (type == PropertyType.residentialComplex) {
       return Colors.purple.shade50;
     }
     return colorScheme.primaryContainer.withOpacity(0.1);
@@ -48,7 +48,7 @@ class PropertyListItem extends HookWidget {
       return Colors.green.shade700;
     } else if (type == PropertyType.office) {
       return Colors.orange.shade700;
-    } else if (type == PropertyType.residential_complex) {
+    } else if (type == PropertyType.residentialComplex) {
       return Colors.purple.shade700;
     }
     return colorScheme.primary;

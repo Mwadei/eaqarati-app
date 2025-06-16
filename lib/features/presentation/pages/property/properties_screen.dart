@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eaqarati_app/core/utils/constants.dart';
 import 'package:eaqarati_app/features/presentation/blocs/property/property_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:go_router/go_router.dart';
 
 class PropertiesScreen extends HookWidget {
   const PropertiesScreen({super.key});
@@ -38,7 +39,7 @@ class PropertiesScreen extends HookWidget {
         // Delay FAB animation
         if (context.mounted) fabScaleController.forward();
       });
-      return fabScaleController.dispose;
+      return null;
     }, const []);
 
     return Scaffold(
@@ -89,22 +90,6 @@ class PropertiesScreen extends HookWidget {
                         ),
                       ),
                     ),
-                    // ElevatedButton.icon(
-                    //   icon: const Icon(Icons.add_rounded),
-                    //   label: Text('propertiesScreen.add_first_property'.tr()),
-                    //   onPressed: () {
-                    //     // TODO: Navigate to Add Property Screen
-                    //     // context.go('/add-property');
-                    //   },
-                    //   style: ElevatedButton.styleFrom(
-                    //     backgroundColor: colorScheme.primary,
-                    //     foregroundColor: colorScheme.onPrimary,
-                    //     padding: const EdgeInsets.symmetric(
-                    //       horizontal: 24,
-                    //       vertical: 12,
-                    //     ),
-                    //   ),
-                    // ),
                   ],
                 ),
               );
@@ -116,26 +101,28 @@ class PropertiesScreen extends HookWidget {
                 child: CustomScrollView(
                   slivers: [
                     SliverPadding(
-                      padding: const EdgeInsets.all(kPagePadding),
-                      sliver: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'propertiesScreen.properties_title'.tr(),
-                            style: textTheme.titleLarge?.copyWith(
-                              color: colorScheme.onSurface,
+                      padding: const EdgeInsets.only(top: kPagePadding),
+                      sliver: SliverToBoxAdapter(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'propertiesScreen.properties_title'.tr(),
+                              style: textTheme.titleLarge?.copyWith(
+                                color: colorScheme.onSurface,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: kVerticalSpaceSmall),
-                          Text(
-                            'propertiesScreen.properties_subtitle'.tr(),
-                            style: textTheme.bodyMedium?.copyWith(
-                              color: colorScheme.secondary,
+                            const SizedBox(height: kVerticalSpaceSmall),
+                            Text(
+                              'propertiesScreen.properties_subtitle'.tr(),
+                              style: textTheme.bodyMedium?.copyWith(
+                                color: colorScheme.secondary,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
-                            textAlign: TextAlign.center,
-                          ),
-                          const SizedBox(height: kVerticalSpaceMedium * 2),
-                        ],
+                            const SizedBox(height: kVerticalSpaceMedium),
+                          ],
+                        ),
                       ),
                     ),
                     SliverPadding(
@@ -216,9 +203,13 @@ class PropertiesScreen extends HookWidget {
       floatingActionButton: ScaleTransition(
         scale: fabScaleAnimation,
         child: FloatingActionButton(
-          onPressed: () {
-            // TODO: Navigate to Add Property Screen
-            // context.go('/add-property');
+          onPressed: () async {
+            final result = await context.push('/properties/form');
+            if (result == true) {
+              if (context.mounted) {
+                context.read<PropertyBloc>().add(LoadAllProperties());
+              }
+            }
           },
           backgroundColor: colorScheme.primary,
           foregroundColor: colorScheme.onPrimary,
@@ -352,7 +343,7 @@ class PropertiesScreen extends HookWidget {
                 const SizedBox(height: kVerticalSpaceSmall / 2),
                 Text(
                   totalCount.toString(),
-                  style: textTheme.displaySmall?.copyWith(
+                  style: textTheme.titleMedium?.copyWith(
                     color: colorScheme.onPrimary,
                     fontWeight: FontWeight.bold,
                   ),

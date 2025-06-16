@@ -36,6 +36,35 @@
         "units_count": "{count} وحدات",
         "no_properties": "لا توجد عقارات متاحة"
     },
+    "common": {
+        "save": "حفظ",
+        "cancel": "إلغاء",
+        "save_changes": "حفظ التغييرات"
+    },
+    "add_edit_property_screen": {
+        "propertyType_building": "عمارة",
+        "propertyType_apartment": "شقة",
+        "propertyType_chalet": "شاليه",
+        "propertyType_villa": "فيلا",
+        "propertyType_office": "مكتب",
+        "propertyType_residentialComplex": "مجمع سكني",
+        "title_add": "إضافة عقار",
+        "title_edit": "تعديل العقار",
+        "name_label": "اسم العقار",
+        "name_hint": "أدخل اسم العقار",
+        "address_label": "العنوان",
+        "address_hint": "أدخل عنوان العقار",
+        "type_label": "نوع العقار",
+        "type_hint": "اختر نوع العقار",
+        "notes_label": "ملاحظات",
+        "notes_hint": "أضف أي ملاحظات إضافية حول العقار...",
+        "save_button": "حفظ العقار",
+        "error_name_required": "اسم العقار مطلوب.",
+        "error_type_required": "يرجى اختيار نوع العقار.",
+        "error_select_type": "يرجى اختيار نوع العقار قبل الحفظ.",
+        "success_add": "تمت إضافة العقار بنجاح!",
+        "success_update": "تم تحديث العقار بنجاح!"
+    },
     "auth": {
         "login_title": "تسجيل الدخول",
         "username_label": "اسم المستخدم",

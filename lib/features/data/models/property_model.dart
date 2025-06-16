@@ -16,9 +16,11 @@ class PropertyModel extends PropertyEntity {
     return PropertyModel(
       propertyId: map[DatabaseHelper.colPropertyId] as int?,
       name: map[DatabaseHelper.colPropertyName] as String,
-      address: map[DatabaseHelper.colPropertyAddress] as String,
-      type: map[DatabaseHelper.colPropertyType] as PropertyType,
-      notes: map[DatabaseHelper.colPropertyNotes] as String,
+      address: map[DatabaseHelper.colPropertyAddress] as String?,
+      type: PropertyEntity.typeFormString(
+        map[DatabaseHelper.colPropertyType] as String,
+      ),
+      notes: map[DatabaseHelper.colPropertyNotes] as String?,
       createdAt: DateTime.parse(
         map[DatabaseHelper.colPropertyCreatedAt] as String,
       ),
@@ -30,7 +32,7 @@ class PropertyModel extends PropertyEntity {
       if (propertyId != null) DatabaseHelper.colPropertyId: propertyId,
       DatabaseHelper.colPropertyName: name,
       DatabaseHelper.colPropertyAddress: address,
-      DatabaseHelper.colPropertyType: type,
+      DatabaseHelper.colPropertyType: type.name,
       DatabaseHelper.colPropertyNotes: notes,
       DatabaseHelper.colPropertyCreatedAt: createdAt.toIso8601String(),
     };

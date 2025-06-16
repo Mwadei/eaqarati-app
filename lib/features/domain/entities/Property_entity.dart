@@ -27,4 +27,13 @@ class PropertyEntity extends Equatable {
     notes,
     createdAt,
   ];
+
+  String get typeString => type.toString().split('.').last;
+
+  static PropertyType typeFormString(String status) {
+    return PropertyType.values.firstWhere(
+      (element) => element.toString().split('.').last == status,
+      orElse: () => PropertyType.apartment, // Default if not found
+    );
+  }
 }

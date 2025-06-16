@@ -48,7 +48,7 @@ class TenantLocalDataSourceImpl implements TenantLocalDataSource {
     try {
       return await db.delete(
         DatabaseHelper.tableTenants,
-        where: '{$columnId} = ? ',
+        where: '$columnId = ? ',
         whereArgs: [tenantId],
       );
     } catch (e) {
@@ -89,7 +89,7 @@ class TenantLocalDataSourceImpl implements TenantLocalDataSource {
     try {
       final List<Map<String, Object?>> tenant = await db.query(
         DatabaseHelper.tableTenants,
-        where: '{$columnId} = ?',
+        where: '$columnId = ?',
         whereArgs: [tenantId],
         limit: 1,
       );
@@ -123,7 +123,7 @@ class TenantLocalDataSourceImpl implements TenantLocalDataSource {
       return await db.update(
         DatabaseHelper.tableTenants,
         tenant.toMap(),
-        where: '{$columnId} = ? ',
+        where: '$columnId = ? ',
         whereArgs: [tenant.tenantId],
       );
     } catch (e) {

@@ -39,7 +39,7 @@ class PropertyLocalDataSourceImpl implements PropertyLocalDataSource {
 
     return await db.delete(
       DatabaseHelper.tableProperties,
-      where: '{$columnId} = ?',
+      where: '$columnId = ?',
       whereArgs: [propertyId],
     );
   }
@@ -64,7 +64,7 @@ class PropertyLocalDataSourceImpl implements PropertyLocalDataSource {
     final columnId = DatabaseHelper.colPropertyId;
     final List<Map<String, dynamic>> property = await db.query(
       DatabaseHelper.tableProperties,
-      where: '{$columnId} = ?',
+      where: '$columnId = ?',
       whereArgs: [propertyId],
       limit: 1,
     );
@@ -85,7 +85,7 @@ class PropertyLocalDataSourceImpl implements PropertyLocalDataSource {
     return await db.update(
       DatabaseHelper.tableProperties,
       property.toMap(),
-      where: '{$columnId} = ?',
+      where: '$columnId = ?',
       whereArgs: [property.propertyId],
     );
   }

@@ -35,6 +35,35 @@
         "units_count": "{count} Units",
         "no_properties": "No properties available"
     },
+    "common": {
+        "save": "Save",
+        "cancel": "Cancel",
+        "save_changes": "Save Changes"
+    },
+    "add_edit_property_screen": {
+        "propertyType_building": "Building",
+        "propertyType_apartment": "Apartment",
+        "propertyType_chalet": "Chalet",
+        "propertyType_villa": "Villa",
+        "propertyType_office": "Office",
+        "propertyType_residentialComplex": "Residential Complex",
+        "title_add": "Add Property",
+        "title_edit": "Edit Property",
+        "name_label": "Property Name",
+        "name_hint": "Enter property name",
+        "address_label": "Address",
+        "address_hint": "Enter property address",
+        "type_label": "Property Type",
+        "type_hint": "Choose property type",
+        "notes_label": "Notes",
+        "notes_hint": "Add any additional notes about the property...",
+        "save_button": "Save Property",
+        "error_name_required": "Property name is required.",
+        "error_type_required": "Please select a property type.",
+        "error_select_type": "Please select a property type before saving.",
+        "success_add": "Property added successfully!",
+        "success_update": "Property updated successfully!"
+    },
     "auth": {
         "login_title": "Login",
         "username_label": "Username",

@@ -43,7 +43,7 @@ class UnitLocalDataSourceImpl implements UnitLocalDataSource {
     final columnId = DatabaseHelper.colUnitId;
     return await db.delete(
       DatabaseHelper.tableUnits,
-      where: '{$columnId} = ? ',
+      where: '$columnId = ? ',
       whereArgs: [unitId],
     );
   }
@@ -65,7 +65,7 @@ class UnitLocalDataSourceImpl implements UnitLocalDataSource {
     final columnId = DatabaseHelper.colUnitId;
     final List<Map<String, Object?>> unit = await db.query(
       DatabaseHelper.tableUnits,
-      where: '{$columnId} = ?',
+      where: '$columnId = ?',
       whereArgs: [unitId],
       limit: 1,
     );
@@ -84,7 +84,7 @@ class UnitLocalDataSourceImpl implements UnitLocalDataSource {
     final columnId = DatabaseHelper.colUnitPropertyId;
     final List<Map<String, dynamic>> units = await db.query(
       DatabaseHelper.tableUnits,
-      where: '{$columnId} = ?',
+      where: '$columnId = ?',
       whereArgs: [propertyId],
     );
 
@@ -104,7 +104,7 @@ class UnitLocalDataSourceImpl implements UnitLocalDataSource {
     return db.update(
       DatabaseHelper.tableUnits,
       unit.toMap(),
-      where: '{$columnId} = ?',
+      where: '$columnId = ?',
       whereArgs: [unit.unitId],
     );
   }

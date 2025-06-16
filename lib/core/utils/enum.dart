@@ -6,7 +6,7 @@ enum PropertyType {
   chalet,
   villa,
   office,
-  residential_complex,
+  residentialComplex,
 }
 
 enum UnitStatus { vacant, occupied, underMaintenance }
