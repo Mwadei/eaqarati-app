@@ -46,7 +46,9 @@ class PropertyDetailsScreen extends HookWidget {
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: colorScheme.onSurface),
-          onPressed: () => context.pop(),
+          onPressed: () {
+            context.pop();
+          },
         ),
         title: Text(
           'property_details.title'.tr(),

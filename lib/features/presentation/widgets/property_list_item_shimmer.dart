@@ -24,48 +24,47 @@ class PropertyListItemShimmer extends StatelessWidget {
           Shimmer.fromColors(
             highlightColor: _highlightColor,
             baseColor: _baseColor,
-            direction: ShimmerDirection.ltr,
+            direction: ShimmerDirection.rtl,
             period: const Duration(seconds: 1),
             child: Container(
               width: 48,
               height: 48,
-              color: colorScheme.onSurfaceVariant.withOpacity(0.1),
+              decoration: BoxDecoration(
+                color: colorScheme.onSurfaceVariant,
+                borderRadius: BorderRadius.circular(12),
+              ),
             ),
           ),
           const SizedBox(width: kVerticalSpaceMedium),
-          Shimmer.fromColors(
-            baseColor: _baseColor,
-            highlightColor: _highlightColor,
-            child: Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Shimmer.fromColors(
-                    highlightColor: _highlightColor,
-                    baseColor: _baseColor,
-                    direction: ShimmerDirection.ltr,
-                    period: const Duration(seconds: 1),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      height: 16,
-                      color: colorScheme.onSurfaceVariant.withOpacity(0.1),
-                    ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Shimmer.fromColors(
+                  highlightColor: _highlightColor,
+                  baseColor: _baseColor,
+                  direction: ShimmerDirection.rtl,
+                  period: const Duration(seconds: 1),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    height: 16,
+                    color: colorScheme.onSurfaceVariant,
                   ),
-                  const SizedBox(height: kVerticalSpaceSmall / 2),
-                  Shimmer.fromColors(
-                    highlightColor: _highlightColor,
-                    baseColor: _baseColor,
-                    direction: ShimmerDirection.ltr,
-                    period: const Duration(seconds: 1),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.3,
-                      height: 12,
-                      color: colorScheme.onSurfaceVariant.withOpacity(0.1),
-                    ),
+                ),
+                const SizedBox(height: kVerticalSpaceSmall / 2),
+                Shimmer.fromColors(
+                  highlightColor: _highlightColor,
+                  baseColor: _baseColor,
+                  direction: ShimmerDirection.rtl,
+                  period: const Duration(seconds: 1),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    height: 12,
+                    color: colorScheme.onSurfaceVariant,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],

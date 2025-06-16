@@ -1,6 +1,7 @@
 import 'package:eaqarati_app/core/utils/constants.dart';
 import 'package:eaqarati_app/core/utils/enum.dart';
 import 'package:eaqarati_app/features/domain/entities/property_entity.dart';
+import 'package:eaqarati_app/features/presentation/blocs/property/property_bloc.dart';
 import 'package:eaqarati_app/features/presentation/blocs/units/units_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -77,12 +78,16 @@ class PropertyListItem extends HookWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       color: colorScheme.surface,
       child: InkWell(
-        onTap: () {
+        onTap: () async {
           if (property.propertyId != null) {
-            context.pushNamed(
+            await context.pushNamed(
               'propertyDetails',
               pathParameters: {'propertyId': '${property.propertyId}'},
             );
+
+            if (context.mounted) {
+              context.read<PropertyBloc>().add(LoadAllProperties());
+            }
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Error: Property ID is missing.')),

@@ -51,6 +51,7 @@ class PropertiesScreen extends HookWidget {
 
           if (state is PropertyLoading && state is! PropertiesLoaded) {
             bodyContent = ListView.builder(
+              key: const ValueKey('loading_shimmer_list'),
               padding: const EdgeInsets.all(kPagePadding),
               itemCount: 5,
               itemBuilder: (ctx, idx) => const PropertyListItemShimmer(),
@@ -58,6 +59,7 @@ class PropertiesScreen extends HookWidget {
           } else if (state is PropertiesLoaded) {
             if (state.properties.isEmpty) {
               bodyContent = Center(
+                key: const ValueKey('empty_state_properties'),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -95,6 +97,7 @@ class PropertiesScreen extends HookWidget {
               );
             } else {
               bodyContent = RefreshIndicator(
+                key: const ValueKey('loaded_properties_list'),
                 onRefresh: () async {
                   context.read<PropertyBloc>().add(LoadAllProperties());
                 },
@@ -187,16 +190,16 @@ class PropertiesScreen extends HookWidget {
               );
             }
           } else if (state is PropertyError) {
-            bodyContent = Center(child: Text('Error: ${state.message}'));
+            bodyContent = Center(
+              key: const ValueKey('error_state_properties'),
+              child: Text('Error: ${state.message}'),
+            );
           } else {
-            bodyContent = SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: kPagePadding),
-                  child: const PropertyListItemShimmer(),
-                ),
-                childCount: 3,
-              ),
+            bodyContent = ListView.builder(
+              key: const ValueKey('initial_shimmer_list'),
+              padding: const EdgeInsets.all(kPagePadding),
+              itemCount: 5,
+              itemBuilder: (ctx, idx) => const PropertyListItemShimmer(),
             ); // Initial or unexpected state
           }
 
