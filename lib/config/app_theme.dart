@@ -172,7 +172,7 @@ class AppTheme {
         primary: _lightPrimaryColor,
         surface: _lightBackgroundColor,
         error: _lightErrorColor,
-        onPrimary: Colors.white,
+        onPrimary: Colors.black,
         onSurface: _lightOnSurfaceColor,
         secondary: _lightSecondaryColor,
         tertiary: _lightTertiaryColor,

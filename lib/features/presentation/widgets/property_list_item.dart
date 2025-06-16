@@ -108,7 +108,7 @@ class PropertyListItem extends HookWidget {
                     Text(
                       property.name,
                       style: textTheme.titleSmall?.copyWith(
-                        color: colorScheme.onSurface,
+                        color: colorScheme.onPrimary,
                         fontWeight: FontWeight.w600,
                       ),
                       maxLines: 1,
@@ -116,8 +116,8 @@ class PropertyListItem extends HookWidget {
                     ),
                     const SizedBox(height: kVerticalSpaceSmall / 3),
                     Text(
-                      property.type
-                          .toString(), // Or a localized version of type
+                      'add_edit_property_screen.propertyType_${property.type.name}'
+                          .tr(), // Or a localized version of type
                       style: textTheme.bodySmall?.copyWith(
                         color: colorScheme.onSurfaceVariant,
                       ),
@@ -149,7 +149,8 @@ class PropertyListItem extends HookWidget {
                             const SizedBox(width: kVerticalSpaceSmall / 2),
                             Text(
                               'propertiesScreen.units_count'.tr(
-                                args: [unitCount.toString()],
+                                namedArgs: {'count': unitCount.toString()},
+                                // args: [unitCount.toString()],
                               ),
                               style: textTheme.bodySmall?.copyWith(
                                 color: colorScheme.onSurfaceVariant,
