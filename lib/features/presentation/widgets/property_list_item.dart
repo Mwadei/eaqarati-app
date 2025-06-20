@@ -32,13 +32,13 @@ class PropertyListItem extends HookWidget {
     ColorScheme colorScheme,
   ) {
     if (type == PropertyType.apartment || type == PropertyType.building) {
-      return Colors.blue.shade50;
+      return Colors.blue.withOpacity(0.3);
     } else if (type == PropertyType.chalet || type == PropertyType.villa) {
-      return Colors.green.shade50;
+      return Colors.green.withOpacity(0.3);
     } else if (type == PropertyType.office) {
-      return Colors.orange.shade50;
+      return Colors.orange.withOpacity(0.3);
     } else if (type == PropertyType.residentialComplex) {
-      return Colors.purple.shade50;
+      return Colors.purple.withOpacity(0.3);
     }
     return colorScheme.primaryContainer.withOpacity(0.1);
   }
