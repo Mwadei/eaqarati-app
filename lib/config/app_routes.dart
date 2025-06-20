@@ -4,6 +4,7 @@ import 'package:eaqarati_app/features/presentation/pages/property/add_edit_prope
 import 'package:eaqarati_app/features/presentation/pages/property/properties_screen.dart';
 import 'package:eaqarati_app/features/presentation/pages/property/property_details_screen.dart';
 import 'package:eaqarati_app/features/presentation/pages/splash_screen/splash_screen.dart';
+import 'package:eaqarati_app/features/presentation/pages/unit/unit_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -40,7 +41,6 @@ class AppRouter {
               final propertyIdString = state.pathParameters['propertyId'];
               final propertyId = int.tryParse(propertyIdString ?? '');
               if (propertyId == null) {
-                // Ideally, show an error page or redirect
                 return Scaffold(
                   appBar: AppBar(title: const Text('Error')),
                   body: const Center(child: Text('Invalid Property ID')),
@@ -48,6 +48,33 @@ class AppRouter {
               }
               return PropertyDetailsScreen(propertyId: propertyId);
             },
+            routes: [
+              GoRoute(
+                path: 'units/:unitId',
+                name: 'unitDetails',
+                builder: (context, state) {
+                  final propertyTypeString =
+                      state.pathParameters['propertyType'];
+                  final unitIdString = state.pathParameters['unitId'];
+                  final propertyType = PropertyEntity.typeFormString(
+                    propertyTypeString!,
+                  );
+                  final unitId = int.tryParse(unitIdString ?? '');
+
+                  if (unitId == null) {
+                    return Scaffold(
+                      appBar: AppBar(title: const Text('Error')),
+                      body: const Center(child: Text('Invalid Unit ID')),
+                    );
+                  }
+
+                  return UnitDetailsScreen(
+                    propertyType: propertyType,
+                    unitId: unitId,
+                  );
+                },
+              ),
+            ],
           ),
         ],
       ),

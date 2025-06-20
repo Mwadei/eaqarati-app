@@ -214,7 +214,7 @@ class HomeScreen extends HookWidget {
             return SummaryCard(
               icon: Icons.home_work_outlined,
               iconColor: Theme.of(context).primaryColor,
-              iconBgColor: Theme.of(context).primaryColor.withOpacity(0.3),
+              iconBgColor: Theme.of(context).primaryColor.withOpacity(0.1),
               count: count,
               label: 'dashboard.total_properties'.tr(),
               animationController: animationController,
@@ -242,7 +242,7 @@ class HomeScreen extends HookWidget {
             return SummaryCard(
               icon: Icons.people_alt_outlined,
               iconColor: Colors.green.shade700,
-              iconBgColor: Colors.green..withOpacity(0.3),
+              iconBgColor: Colors.green.withOpacity(0.1),
               count: count,
               label: 'dashboard.occupied_units'.tr(),
               animationController: animationController,
@@ -275,7 +275,7 @@ class HomeScreen extends HookWidget {
             return SummaryCard(
               icon: Icons.timer_off_outlined, // Changed icon
               iconColor: Colors.orange.shade700,
-              iconBgColor: Colors.orange.withOpacity(0.3),
+              iconBgColor: Colors.orange.withOpacity(0.1),
               count: count,
               label: 'dashboard.overdue_payments'.tr(),
               animationController: animationController,
@@ -311,7 +311,7 @@ class HomeScreen extends HookWidget {
               iconColor: Theme.of(context).colorScheme.primary,
               iconBgColor: Theme.of(
                 context,
-              ).colorScheme.primary.withOpacity(0.3),
+              ).colorScheme.primary.withOpacity(0.1),
               count: countText,
               label: 'dashboard.monthly_recipient'.tr(),
               animationController: animationController,

@@ -83,6 +83,25 @@
         "status_occupied": "Occupied",
         "status_maintenance": "Maintenance"
     },  
+    "unit_details": {
+        "title": "Unit Details",
+        "subtitle_app_name": "Eaqarati Property Management",
+        "no_description": "No description available.",
+        "default_rent": "Default Rent",
+        "unit_type": "Unit Type",
+        "currency": "$",
+        "rent_freq_month": "month",
+        "current_lease_title": "Current Lease",
+        "active_lease_info": "Active lease information",
+        "tenant_name": "Tenant Name",
+        "monthly_rent": "Monthly Rent",
+        "lease_start": "Lease Start",
+        "lease_end": "Lease End",
+        "view_lease_details_button": "View Lease Details",
+        "edit_unit_button": "Edit Unit",
+        "unit_history_button": "Unit History",
+        "error_loading_unit": "Error loading unit: {0}"
+    },
     "auth": {
         "login_title": "Login",
         "username_label": "Username",

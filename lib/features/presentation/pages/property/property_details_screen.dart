@@ -108,7 +108,12 @@ class PropertyDetailsScreen extends HookWidget {
                       child: _buildUnitsHeader(context, unitsState),
                     ),
                   ),
-                  _buildUnitsList(context, unitsState, listAnimationController),
+                  _buildUnitsList(
+                    context,
+                    unitsState,
+                    listAnimationController,
+                    property.type,
+                  ),
                   SliverToBoxAdapter(
                     child: Padding(
                       padding: const EdgeInsets.all(
@@ -136,7 +141,7 @@ class PropertyDetailsScreen extends HookWidget {
               ),
             );
           }
-          return const PropertyDetailsShimmer(); // Should not happen often
+          return const PropertyDetailsShimmer();
         },
       ),
     );
@@ -163,48 +168,6 @@ class PropertyDetailsScreen extends HookWidget {
       propertyTypeDisplay =
           propertyTypeDisplay[0].toUpperCase() +
           propertyTypeDisplay.substring(1);
-    }
-
-    IconData getPropertyTypeIcon(PropertyType type) {
-      if (type == PropertyType.apartment || type == PropertyType.building) {
-        return Icons.apartment_rounded;
-      } else if (type == PropertyType.chalet || type == PropertyType.villa) {
-        return Icons.villa_rounded;
-      } else if (type == PropertyType.office) {
-        return Icons.workspaces_outline;
-      } else if (type == PropertyType.residentialComplex) {
-        return Icons.holiday_village_outlined;
-      }
-      return Icons.location_city_rounded;
-    }
-
-    Color getPropertyIconBackgroundColor(
-      PropertyType type,
-      ColorScheme colorScheme,
-    ) {
-      if (type == PropertyType.apartment || type == PropertyType.building) {
-        return Colors.blue.withOpacity(0.3);
-      } else if (type == PropertyType.chalet || type == PropertyType.villa) {
-        return Colors.green.withOpacity(0.3);
-      } else if (type == PropertyType.office) {
-        return Colors.orange.withOpacity(0.3);
-      } else if (type == PropertyType.residentialComplex) {
-        return Colors.purple.withOpacity(0.3);
-      }
-      return colorScheme.primaryContainer.withOpacity(0.1);
-    }
-
-    Color getPropertyIconColor(PropertyType type, ColorScheme colorScheme) {
-      if (type == PropertyType.apartment || type == PropertyType.building) {
-        return Colors.blue.shade700;
-      } else if (type == PropertyType.chalet || type == PropertyType.villa) {
-        return Colors.green.shade700;
-      } else if (type == PropertyType.office) {
-        return Colors.orange.shade700;
-      } else if (type == PropertyType.residentialComplex) {
-        return Colors.purple.shade700;
-      }
-      return colorScheme.primary;
     }
 
     return Card(
@@ -348,6 +311,7 @@ class PropertyDetailsScreen extends HookWidget {
     BuildContext context,
     UnitsState unitsState,
     AnimationController listAnimationController,
+    PropertyType propertyType,
   ) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
@@ -397,7 +361,11 @@ class PropertyDetailsScreen extends HookWidget {
                 ),
               ),
             );
-            return UnitListItem(unit: unit, animation: itemAnimation);
+            return UnitListItem(
+              unit: unit,
+              propertyType: propertyType,
+              animation: itemAnimation,
+            );
           }, childCount: unitsState.units.length),
         ),
       );

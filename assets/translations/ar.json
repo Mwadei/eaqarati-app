@@ -83,6 +83,25 @@
         "status_occupied": "مؤجرة",
         "status_maintenance": "صيانة"
     },
+    "unit_details": {
+        "title": "تفاصيل الوحدة",
+        "subtitle_app_name": "إدارة عقاراتي",
+        "no_description": "لا توجد وصف متاح.",
+        "default_rent": "الإيجار الافتراضي",
+        "unit_type": "نوع الوحدة",
+        "currency": "ر.س",
+        "rent_freq_month": "شهريًا",
+        "current_lease_title": "عقد الإيجار الحالي",
+        "active_lease_info": "معلومات العقد النشط",
+        "tenant_name": "اسم المستأجر",
+        "monthly_rent": "الإيجار الشهري",
+        "lease_start": "بداية العقد",
+        "lease_end": "نهاية العقد",
+        "view_lease_details_button": "عرض تفاصيل العقد",
+        "edit_unit_button": "تعديل الوحدة",
+        "unit_history_button": "سجل الوحدة",
+        "error_loading_unit": "حدث خطأ أثناء تحميل بيانات الوحدة: {0}"
+    },
     "auth": {
         "login_title": "تسجيل الدخول",
         "username_label": "اسم المستخدم",

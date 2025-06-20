@@ -1,5 +1,4 @@
 import 'package:eaqarati_app/core/utils/constants.dart';
-import 'package:eaqarati_app/core/utils/enum.dart';
 import 'package:eaqarati_app/features/domain/entities/property_entity.dart';
 import 'package:eaqarati_app/features/presentation/blocs/property/property_bloc.dart';
 import 'package:eaqarati_app/features/presentation/blocs/units/units_bloc.dart';
@@ -13,48 +12,6 @@ class PropertyListItem extends HookWidget {
   final PropertyEntity property;
 
   const PropertyListItem({super.key, required this.property});
-
-  IconData _getPropertyTypeIcon(PropertyType type) {
-    if (type == PropertyType.apartment || type == PropertyType.building) {
-      return Icons.apartment_rounded;
-    } else if (type == PropertyType.chalet || type == PropertyType.villa) {
-      return Icons.villa_rounded;
-    } else if (type == PropertyType.office) {
-      return Icons.workspaces_outline;
-    } else if (type == PropertyType.residentialComplex) {
-      return Icons.holiday_village_outlined;
-    }
-    return Icons.location_city_rounded;
-  }
-
-  Color _getPropertyIconBackgroundColor(
-    PropertyType type,
-    ColorScheme colorScheme,
-  ) {
-    if (type == PropertyType.apartment || type == PropertyType.building) {
-      return Colors.blue.withOpacity(0.3);
-    } else if (type == PropertyType.chalet || type == PropertyType.villa) {
-      return Colors.green.withOpacity(0.3);
-    } else if (type == PropertyType.office) {
-      return Colors.orange.withOpacity(0.3);
-    } else if (type == PropertyType.residentialComplex) {
-      return Colors.purple.withOpacity(0.3);
-    }
-    return colorScheme.primaryContainer.withOpacity(0.1);
-  }
-
-  Color _getPropertyIconColor(PropertyType type, ColorScheme colorScheme) {
-    if (type == PropertyType.apartment || type == PropertyType.building) {
-      return Colors.blue.shade700;
-    } else if (type == PropertyType.chalet || type == PropertyType.villa) {
-      return Colors.green.shade700;
-    } else if (type == PropertyType.office) {
-      return Colors.orange.shade700;
-    } else if (type == PropertyType.residentialComplex) {
-      return Colors.purple.shade700;
-    }
-    return colorScheme.primary;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,15 +59,15 @@ class PropertyListItem extends HookWidget {
               Container(
                 padding: const EdgeInsets.all(kVerticalSpaceMedium * 0.75),
                 decoration: BoxDecoration(
-                  color: _getPropertyIconBackgroundColor(
+                  color: getPropertyIconBackgroundColor(
                     property.type,
                     colorScheme,
                   ),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
-                  _getPropertyTypeIcon(property.type),
-                  color: _getPropertyIconColor(property.type, colorScheme),
+                  getPropertyTypeIcon(property.type),
+                  color: getPropertyIconColor(property.type, colorScheme),
                   size: 24,
                 ),
               ),
@@ -131,7 +88,7 @@ class PropertyListItem extends HookWidget {
                     const SizedBox(height: kVerticalSpaceSmall / 3),
                     Text(
                       'add_edit_property_screen.propertyType_${property.type.name}'
-                          .tr(), // Or a localized version of type
+                          .tr(),
                       style: textTheme.bodySmall?.copyWith(
                         color: colorScheme.onSurfaceVariant,
                       ),
@@ -140,7 +97,6 @@ class PropertyListItem extends HookWidget {
                     ),
                     const SizedBox(height: kVerticalSpaceSmall / 3),
                     BlocBuilder<UnitsBloc, UnitsState>(
-                      // Listen to UnitsBloc for unit count
                       builder: (context, unitsState) {
                         int unitCount = 0;
                         if (unitsState is UnitsLoaded) {
