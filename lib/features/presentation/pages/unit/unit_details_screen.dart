@@ -24,6 +24,72 @@ class UnitDetailsScreen extends HookWidget {
     required this.unitId,
   });
 
+  void _handleMenuAction(
+    BuildContext context,
+    DetailsMenuAction actions,
+    UnitsEntity unit,
+  ) {
+    switch (actions) {
+      case DetailsMenuAction.delete:
+        _confirmDeleteUnit(context, unit);
+        break;
+      case DetailsMenuAction.edit:
+        // Navigate to Edit Unit Screen
+        // Example: context.pushNamed('unitForm', extra: unit, pathParameters: {'propertyId': propertyId.toString()});
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('unit_details.edit_unit_todo'.tr())),
+        );
+        break;
+      case DetailsMenuAction.history:
+        // Navigate to Unit History Screen
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('unit_details.unit_history_todo'.tr())),
+        );
+        break;
+    }
+  }
+
+  Future<void> _confirmDeleteUnit(
+    BuildContext context,
+    UnitsEntity unit,
+  ) async {
+    final bool? confirmed = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: Text('unit_details.delete_unit_confirm_title'.tr()),
+          content: Text(
+            'unit_details.delete_unit_confirm_message'.tr(
+              args: [unit.unitNumber],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('common.cancel'.tr()),
+              onPressed: () {
+                Navigator.of(dialogContext).pop(false);
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                foregroundColor: Theme.of(dialogContext).colorScheme.error,
+              ),
+              child: Text('common.delete'.tr()),
+              onPressed: () {
+                Navigator.of(dialogContext).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirmed == true && unit.unitId != null) {
+      // ignore: use_build_context_synchronously
+      context.read<UnitsBloc>().add(DeleteExistingUnit(unit.unitId!));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -43,7 +109,12 @@ class UnitDetailsScreen extends HookWidget {
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
-      appBar: _buildAppBar(context, textTheme, colorScheme),
+      appBar: _buildAppBar(
+        context,
+        textTheme,
+        colorScheme,
+        context.watch<UnitsBloc>().state,
+      ),
       body: MultiBlocListener(
         listeners: [
           BlocListener<LeaseBloc, LeaseState>(
@@ -65,6 +136,39 @@ class UnitDetailsScreen extends HookWidget {
                 if (activeLease.leaseId != null) {
                   context.read<TenantBloc>().add(
                     LoadTenantById(activeLease.tenantId),
+                  );
+                }
+              }
+            },
+          ),
+          BlocListener<UnitsBloc, UnitsState>(
+            listener: (context, state) {
+              if (state is UnitDeleteSuccess) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('unit_details.delete_unit_success'.tr()),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+                if (context.canPop()) {
+                  context.pop(true);
+                }
+              } else if (state is UnitError &&
+                  ModalRoute.of(context)?.isCurrent == true) {
+                // Show error only if this screen is still active, to avoid showing on previous screen
+                final previousState = context.read<UnitsBloc>().state;
+                // A simple way to check if the error is related to a delete operation (could be more specific)
+                if (previousState is UnitsLoading) {
+                  // Assuming delete sets loading state
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'unit_details.delete_unit_error'.tr(
+                          namedArgs: {'unitNumber': unitId.toString()},
+                        ),
+                      ),
+                      backgroundColor: Theme.of(context).colorScheme.error,
+                    ),
                   );
                 }
               }
@@ -144,6 +248,7 @@ class UnitDetailsScreen extends HookWidget {
     BuildContext context,
     TextTheme textTheme,
     ColorScheme colorScheme,
+    UnitsState unitStateForMenu,
   ) {
     return AppBar(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -174,14 +279,60 @@ class UnitDetailsScreen extends HookWidget {
         ],
       ),
       actions: [
-        IconButton(
-          icon: Icon(Icons.more_vert, color: colorScheme.onSurfaceVariant),
-          onPressed: () {
-            // TODO: Implement more actions like delete
-            // Example: Show a menu with delete option
-          },
-        ),
-        const SizedBox(width: kPagePadding / 2),
+        if (unitStateForMenu is UnitLoaded)
+          PopupMenuButton<DetailsMenuAction>(
+            icon: Icon(Icons.more_vert, color: colorScheme.onSurfaceVariant),
+            onSelected:
+                (actions) =>
+                    _handleMenuAction(context, actions, unitStateForMenu.unit),
+            itemBuilder:
+                (context) => <PopupMenuEntry<DetailsMenuAction>>[
+                  PopupMenuItem(
+                    value: DetailsMenuAction.edit,
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.edit_outlined,
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                      title: Text('common.edit'.tr()),
+                    ),
+                  ),
+
+                  PopupMenuItem<DetailsMenuAction>(
+                    value: DetailsMenuAction.history,
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.history_rounded,
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                      title: Text('unit_details.unit_history_button'.tr()),
+                    ),
+                  ),
+                  const PopupMenuDivider(),
+                  PopupMenuItem<DetailsMenuAction>(
+                    value: DetailsMenuAction.delete,
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.delete_outline,
+                        color: colorScheme.error,
+                      ),
+                      title: Text(
+                        'common.delete'.tr(),
+                        style: TextStyle(color: colorScheme.error),
+                      ),
+                    ),
+                  ),
+                ],
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(kVerticalSpaceSmall),
+            ),
+          ),
+
+        const SizedBox(width: 48), // Placeholder for spacing if menu not shown
+
+        const SizedBox(
+          width: kPagePadding / 2 - 10,
+        ), // Adjust padding slightly if needed
       ],
     );
   }

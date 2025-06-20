@@ -37,6 +37,8 @@
     },
     "common": {
         "save": "Save",
+        "edit": "Edit",
+        "delete" : "Delete",
         "cancel": "Cancel",
         "save_changes": "Save Changes"
     },
@@ -66,6 +68,11 @@
     },
     "property_details": {
         "title": "Property Details",
+        "delete_property_confirm_title": "Delete Property?",
+        "delete_property_confirm_message": "Are you sure you want to delete property {propertyName}? This action cannot be undone.",
+        "delete_property_success": "Property deleted successfully.",
+        "delete_property_error": "Failed to delete property",
+        "edit_property_todo" : "Edit Property functionality to be implemented.",
         "no_address": "No address provided",
         "no_description": "No description available",
         "units_title": "Units",
@@ -74,8 +81,8 @@
         "edit_property_button": "Edit Property",
         "add_unit_button": "Add Unit",
         "add_unit_todo": "Add Unit functionality to be implemented.",
-        "error_loading_property": "Error loading property: {0}",
-        "error_loading_units": "Error loading units: {0}"
+        "error_loading_property": "Error loading property",
+        "error_loading_units": "Error loading units"
     },  
     "units": {
         "unit_prefix": "Unit {0}",
@@ -86,6 +93,12 @@
     "unit_details": {
         "title": "Unit Details",
         "subtitle_app_name": "Eaqarati Property Management",
+        "delete_unit_confirm_title": "Delete Unit?",
+        "delete_unit_confirm_message": "Are you sure you want to delete unit {unitNumber}? This action cannot be undone.",
+        "delete_unit_success": "Unit deleted successfully.",
+        "delete_unit_error": "Failed to delete unit",
+        "edit_unit_todo": "Edit Unit functionality to be implemented.",
+        "unit_history_todo": "Unit History functionality to be implemented.",
         "no_description": "No description available.",
         "default_rent": "Default Rent",
         "unit_type": "Unit Type",
@@ -100,7 +113,7 @@
         "view_lease_details_button": "View Lease Details",
         "edit_unit_button": "Edit Unit",
         "unit_history_button": "Unit History",
-        "error_loading_unit": "Error loading unit: {0}"
+        "error_loading_unit": "Error loading unit"
     },
     "auth": {
         "login_title": "Login",

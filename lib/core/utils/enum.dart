@@ -11,6 +11,8 @@ enum PropertyType {
 
 enum UnitStatus { vacant, occupied, underMaintenance }
 
+enum DetailsMenuAction { delete, edit, history }
+
 enum PaymentFrequencyType {
   daily,
   weekly,

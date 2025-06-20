@@ -37,6 +37,8 @@
     },
     "common": {
         "save": "حفظ",
+        "edit": "تعديل",
+        "delete": "حذف",
         "cancel": "إلغاء",
         "save_changes": "حفظ التغييرات"
     },
@@ -66,6 +68,12 @@
     },
     "property_details": {
         "title": "تفاصيل العقار",
+        "delete_property_confirm_title": "حذف العقار؟",
+        "delete_property_confirm_message": "هل أنت متأكد أنك تريد حذف العقار {propertyName}؟ لا يمكن التراجع عن هذا الإجراء.",
+        "delete_property_success": "تم حذف العقار بنجاح.",
+        "delete_property_error": "فشل في حذف العقار",
+        "edit_property_todo": "ميزة تعديل العقار سيتم تنفيذها لاحقًا.",
+        "history_property_todo": "ميزة سجل العقار سيتم تنفيذها لاحقًا.",
         "no_address": "لم يتم تحديد عنوان",
         "no_description": "لا توجد وصف متاح",
         "units_title": "الوحدات",
@@ -74,7 +82,7 @@
         "edit_property_button": "تعديل العقار",
         "add_unit_button": "إضافة وحدة",
         "add_unit_todo": "ميزة إضافة وحدة سيتم تنفيذها لاحقًا.",
-        "error_loading_property": "خطأ في تحميل بيانات العقار: {0}",
+        "error_loading_property": "خطأ في تحميل بيانات العقار",
         "error_loading_units": "خطأ في تحميل الوحدات: {0}"
     },
     "units": {
@@ -87,6 +95,12 @@
         "title": "تفاصيل الوحدة",
         "subtitle_app_name": "إدارة عقاراتي",
         "no_description": "لا توجد وصف متاح.",
+        "delete_unit_confirm_title": "حذف الوحدة؟",
+        "delete_unit_confirm_message": "هل أنت متأكد أنك تريد حذف الوحدة {0}؟ لا يمكن التراجع عن هذا الإجراء.",
+        "delete_unit_success": "تم حذف الوحدة بنجاح.",
+        "delete_unit_error": "فشل في حذف الوحدة",
+        "edit_unit_todo": "ميزة تعديل الوحدة سيتم تنفيذها لاحقًا.",
+        "unit_history_todo": "ميزة سجل الوحدة سيتم تنفيذها لاحقًا.",
         "default_rent": "الإيجار الافتراضي",
         "unit_type": "نوع الوحدة",
         "currency": "ر.س",
@@ -100,7 +114,7 @@
         "view_lease_details_button": "عرض تفاصيل العقد",
         "edit_unit_button": "تعديل الوحدة",
         "unit_history_button": "سجل الوحدة",
-        "error_loading_unit": "حدث خطأ أثناء تحميل بيانات الوحدة: {0}"
+        "error_loading_unit": "حدث خطأ أثناء تحميل بيانات الوحدة"
     },
     "auth": {
         "login_title": "تسجيل الدخول",

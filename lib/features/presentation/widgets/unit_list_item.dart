@@ -1,8 +1,10 @@
 import 'package:eaqarati_app/core/utils/constants.dart';
 import 'package:eaqarati_app/core/utils/enum.dart';
 import 'package:eaqarati_app/features/domain/entities/units_entity.dart';
+import 'package:eaqarati_app/features/presentation/blocs/units/units_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class UnitListItem extends StatelessWidget {
@@ -66,13 +68,19 @@ class UnitListItem extends StatelessWidget {
         child: InkWell(
           onTap: () async {
             if (unit.unitId != null) {
-              await context.pushNamed(
+              final result = await context.pushNamed(
                 'unitDetails',
                 pathParameters: {
                   'unitId': unit.unitId.toString(),
                   'propertyType': propertyType.toString(),
                 },
               );
+
+              if (result == true && context.mounted) {
+                context.read<UnitsBloc>().add(
+                  LoadUnitsByPropertyId(unit.propertyId),
+                );
+              }
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Error: Unit ID is missing.')),

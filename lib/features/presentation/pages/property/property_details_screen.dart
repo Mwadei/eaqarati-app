@@ -16,6 +16,73 @@ class PropertyDetailsScreen extends HookWidget {
   final int propertyId;
   const PropertyDetailsScreen({super.key, required this.propertyId});
 
+  void _handleMenuAction(
+    BuildContext context,
+    DetailsMenuAction actions,
+    PropertyEntity property,
+  ) async {
+    switch (actions) {
+      case DetailsMenuAction.delete:
+        _confirmDeleteProperty(context, property);
+        break;
+      case DetailsMenuAction.edit:
+        // Navigate to Edit Unit Screen
+        // Example: context.pushNamed('unitForm', extra: unit, pathParameters: {'propertyId': propertyId.toString()});
+        final result = await await context.pushNamed(
+          'propertyForm',
+          extra: property,
+        );
+
+        if (result == true && context.mounted) {
+          context.read<PropertyBloc>().add(LoadPropertyById(propertyId));
+          context.read<UnitsBloc>().add(LoadUnitsByPropertyId(propertyId));
+        }
+        break;
+      default:
+    }
+  }
+
+  Future<void> _confirmDeleteProperty(
+    BuildContext context,
+    PropertyEntity property,
+  ) async {
+    final bool? isConfirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('property_details.delete_property_confirm_title'.tr()),
+          content: Text(
+            'property_details.delete_property_confirm_message'.tr(
+              namedArgs: {'propertyName': property.name},
+            ),
+          ),
+          actions: [
+            TextButton(
+              child: Text('common.cancel'.tr()),
+              onPressed: () {
+                context.pop(false);
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                foregroundColor: Theme.of(context).colorScheme.error,
+              ),
+              child: Text('common.delete'.tr()),
+              onPressed: () {
+                context.pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    );
+
+    if (isConfirmed == true && property.propertyId != null) {
+      // ignore: use_build_context_synchronously
+      context.read<PropertyBloc>().add(DeleteExistingProperty(propertyId));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -57,92 +124,158 @@ class PropertyDetailsScreen extends HookWidget {
         centerTitle: true,
         actions: [
           if (propertyState is PropertyLoaded)
-            IconButton(
-              icon: Icon(Icons.more_vert, color: colorScheme.onSurfaceVariant),
-              onPressed: () {
-                // TODO: Implement more actions like delete
-                // Example: Show a menu with delete option
-              },
+            PopupMenuButton<DetailsMenuAction>(
+              icon: Icon(Icons.more_vert, color: colorScheme.onSurface),
+              onSelected:
+                  (action) => _handleMenuAction(
+                    context,
+                    action,
+                    propertyState.property,
+                  ),
+              itemBuilder:
+                  (context) => [
+                    PopupMenuItem(
+                      value: DetailsMenuAction.edit,
+                      child: ListTile(
+                        leading: Icon(
+                          Icons.edit_outlined,
+                          color: colorScheme.onSurfaceVariant,
+                        ),
+                        title: Text('common.edit'.tr()),
+                      ),
+                    ),
+                    const PopupMenuDivider(),
+                    PopupMenuItem(
+                      value: DetailsMenuAction.delete,
+                      child: ListTile(
+                        leading: Icon(
+                          Icons.delete_outline,
+                          color: colorScheme.error,
+                        ),
+                        title: Text(
+                          'common.delete'.tr(),
+                          style: TextStyle(color: colorScheme.error),
+                        ),
+                      ),
+                    ),
+                  ],
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(kVerticalSpaceSmall),
+              ),
             ),
+
+          const SizedBox(
+            width: kPagePadding / 2 - 10,
+          ), // Adjust padding slightly if needed
         ],
       ),
-      body: BlocBuilder<PropertyBloc, PropertyState>(
-        builder: (context, pState) {
-          if (pState is PropertyLoading ||
-              (pState is PropertyInitial && unitsState is UnitsLoading)) {
-            return const PropertyDetailsShimmer();
-          } else if (pState is PropertyLoaded) {
-            final property = pState.property;
-            // Trigger list animation when units are loaded after property
-            if (unitsState is UnitsLoaded &&
-                !listAnimationController.isAnimating &&
-                !listAnimationController.isCompleted) {
-              listAnimationController.forward();
+      body: BlocListener<PropertyBloc, PropertyState>(
+        listener: (context, state) {
+          if (state is PropertyDeleteSuccess) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('property_details.delete_property_success'.tr()),
+                backgroundColor: Colors.green,
+                duration: const Duration(seconds: 1),
+              ),
+            );
+            if (context.canPop()) {
+              context.pop(true);
             }
-            return FadeTransition(
-              opacity: CurvedAnimation(
-                parent: overallAnimationController,
-                curve: Curves.easeIn,
-              ),
-              child: CustomScrollView(
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(
-                        kPagePadding,
-                        kPagePadding,
-                        kPagePadding,
-                        0,
-                      ),
-                      child: _buildPropertyInfoCard(context, property),
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(
-                        kPagePadding,
-                        kVerticalSpaceMedium * 1.5,
-                        kPagePadding,
-                        kVerticalSpaceSmall,
-                      ),
-                      child: _buildUnitsHeader(context, unitsState),
-                    ),
-                  ),
-                  _buildUnitsList(
-                    context,
-                    unitsState,
-                    listAnimationController,
-                    property.type,
-                  ),
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.all(
-                        kPagePadding,
-                      ).copyWith(top: kVerticalSpaceMedium * 1.5),
-                      child: _buildActionButtons(context, property),
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: SizedBox(
-                      height:
-                          MediaQuery.of(context).padding.bottom +
-                          kVerticalSpaceMedium,
-                    ),
-                  ),
-                ],
-              ),
-            );
-          } else if (pState is PropertyError) {
-            return Center(
-              child: Text(
-                'property_details.error_loading_property'.tr(
-                  args: [pState.message],
+          } else if (state is PropertyError &&
+              ModalRoute.of(context)?.isCurrent == true) {
+            // Show error only if this screen is still active, to avoid showing on previous screen
+            final previousState = context.read<PropertyBloc>().state;
+            // A simple way to check if the error is related to a delete operation (could be more specific)
+            if (previousState is PropertyLoading) {
+              // Assuming delete sets loading state
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('unit_details.delete_unit_error'.tr()),
+                  backgroundColor: Theme.of(context).colorScheme.error,
                 ),
-              ),
-            );
+              );
+            }
           }
-          return const PropertyDetailsShimmer();
         },
+        child: BlocBuilder<PropertyBloc, PropertyState>(
+          builder: (context, pState) {
+            if (pState is PropertyLoading ||
+                (pState is PropertyInitial && unitsState is UnitsLoading)) {
+              return const PropertyDetailsShimmer();
+            } else if (pState is PropertyLoaded) {
+              final property = pState.property;
+              // Trigger list animation when units are loaded after property
+              if (unitsState is UnitsLoaded &&
+                  !listAnimationController.isAnimating &&
+                  !listAnimationController.isCompleted) {
+                listAnimationController.forward();
+              }
+              return FadeTransition(
+                opacity: CurvedAnimation(
+                  parent: overallAnimationController,
+                  curve: Curves.easeIn,
+                ),
+                child: CustomScrollView(
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(
+                          kPagePadding,
+                          kPagePadding,
+                          kPagePadding,
+                          0,
+                        ),
+                        child: _buildPropertyInfoCard(context, property),
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(
+                          kPagePadding,
+                          kVerticalSpaceMedium * 1.5,
+                          kPagePadding,
+                          kVerticalSpaceSmall,
+                        ),
+                        child: _buildUnitsHeader(context, unitsState),
+                      ),
+                    ),
+                    _buildUnitsList(
+                      context,
+                      unitsState,
+                      listAnimationController,
+                      property.type,
+                    ),
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.all(
+                          kPagePadding,
+                        ).copyWith(top: kVerticalSpaceMedium * 1.5),
+                        child: _buildActionButtons(context, property),
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: SizedBox(
+                        height:
+                            MediaQuery.of(context).padding.bottom +
+                            kVerticalSpaceMedium,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            } else if (pState is PropertyError) {
+              return Center(
+                child: Text(
+                  'property_details.error_loading_property'.tr(
+                    args: [pState.message],
+                  ),
+                ),
+              );
+            }
+            return const PropertyDetailsShimmer();
+          },
+        ),
       ),
     );
   }
